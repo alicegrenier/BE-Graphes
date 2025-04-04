@@ -187,15 +187,20 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        boolean resultat ;
+        if (this.isEmpty()) {
+            resultat = true ;
+        } else if (this.isEmpty != 0 && this.size() == 1) {
+            resultat = true ;
+        }
+        }
+        return resultat ;
     }
 
     /**
      * Compute the length of this path (in meters).
      *
      * @return Total length of the path (in meters).
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
         // parcourt le chemin et additionne les valeurs des arcs
