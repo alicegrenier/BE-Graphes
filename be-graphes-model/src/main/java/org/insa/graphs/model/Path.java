@@ -31,6 +31,37 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
+        Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
+        int i=0;
+        double time_min= 1000000000;
+        Arc arc_selectionne;
+        boolean found=false;
+        for (Node n : nodes){
+            if (i==0){
+                n_prec=n;
+            }
+            else{
+                i++;
+                if (n_prec.hasSuccessors()){
+                    for (Arc a: n_prec.getSuccessors()){
+                        if (a.getDestination().equals(n)){ //on sélectionne les arcs qui ont la destination que l'on veut
+                            if (a.getMinimumTravelTime()<time_min){ // on prend celui qui a la plus petite durée
+                                arc_selectionne=a;
+                                found=true;
+                            }
+                        }
+                    }
+                    
+                }
+                if(found==false){ 
+                    throw new IllegalArgumentException();
+                }
+                else{
+                    arcs.add(arc_selectionne);
+                    time_min=1000000000;
+                }
+            }
+        }
         return new Path(graph, arcs);
     }
 
@@ -52,23 +83,28 @@ public class Path {
         int i=0;
         int lenght_min= 1000000;
         Arc arc_selectionne;
+        boolean found=false;
         for (Node n : nodes){
             if (i==0){
                 n_prec=n;
             }
             else{
                 i++;
-                if( n.equals(n_prec)){ //si le noeud précédent est égal au noeud courant, on throw l'exception
-                        throw new IllegalArgumentException();
-                }
                 if (n_prec.hasSuccessors()){
                     for (Arc a: n_prec.getSuccessors()){
                         if (a.getDestination().equals(n)){ //on sélectionne les arcs qui ont la destination que l'on veut
                             if (a.getLength()<lenght_min){ // on prend celui qui a la plus petite longueur 
                                 arc_selectionne=a;
+                                found=true;
                             }
                         }
                     }
+                    
+                }
+                if(found==false){ 
+                    throw new IllegalArgumentException();
+                }
+                else{
                     arcs.add(arc_selectionne);
                     lenght_min=1000000;
                 }
