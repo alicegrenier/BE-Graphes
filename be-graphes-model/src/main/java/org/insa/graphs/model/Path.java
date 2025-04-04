@@ -187,12 +187,63 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        boolean resultat ;
+        boolean resultat = false ;
+        Arc arc_etudie ;
+        Node origine1 ; 
+        Node origine2 ;
+        Node origine3 ;
+        Node destination1 ;
+        Node destination2 ;
+        //Node destination3 ;
+        int index_liste = 0 ;
+
+        // si le chemin est vide 
         if (this.isEmpty()) {
             resultat = true ;
+
+        // si le chemin ne contient qu'un noeud, sans arcs
         } else if (this.isEmpty != 0 && this.size() == 1) {
             resultat = true ;
-        }
+
+        /* si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
+        la destination du premier est l'origine du second*/ 
+        } else {
+
+                for (Arc a : arcs) {
+                    // premier arc a pour origine l'origine du chemin :
+                    if (index_liste == 0) {
+                        origine1 = a.getOrigin() ;
+                        destination1 = a.getDestination() ;
+                        if (origine1 == this.origin) {
+                            resultat = true ;
+                            index_liste++ ;
+                        }
+                    }
+                    
+                    // deuxième arc a pour origine la destination du précedent
+                    // on teste d'abord index_liste ppur vérifier que la première condition est remplie
+                    if (index_liste == 1) {
+                        origine2 = a.getOrigin() ;
+                        destination2 = a.getDestination() ;
+                        if (origine2 == destination1) {
+                            resultat = true ;
+                            index_liste++ ;
+                        }
+                    }
+                    // troisième arc a pour origine la destination du précent
+                    // on teste d'abord index_liste ppur vérifier que les deux premières conditions sont remplies
+                    if (index_liste == 2) {
+                        origine3 = a.getOrigin() ;
+                        if (origine3 == destination2) {
+                            resultat = true ;
+                            index_liste ++ ;
+                        }
+                    }
+
+                }
+
+            
+            }
         }
         return resultat ;
     }
