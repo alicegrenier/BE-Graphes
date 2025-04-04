@@ -225,7 +225,11 @@ public class Path {
      */
     public double getMinimumTravelTime() {
         // TODO:
-        return 0;
+        double time =0; 
+        for (Arc a: arcs){
+            time+=a.getMinimumTravelTime();
+        }
+        return time;
     }
 
 }
