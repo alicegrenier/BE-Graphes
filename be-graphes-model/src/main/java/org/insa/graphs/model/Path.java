@@ -221,10 +221,8 @@ public class Path {
      * every arc.
      *
      * @return Minimum travel time to travel this path (in seconds).
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
         double time =0; 
         for (Arc a: arcs){
             time+=a.getMinimumTravelTime();
