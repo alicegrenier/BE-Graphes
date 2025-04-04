@@ -198,8 +198,12 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+        // parcourt le chemin et additionne les valeurs des arcs
+        float longueur = 0 ;
+        for (Arc a : arcs) {
+            longueur += a.getLength() ;
+        }
+        return longueur;
     }
 
     /**
