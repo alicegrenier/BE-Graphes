@@ -249,25 +249,41 @@ public class Path {
      */
     public boolean isValid() {
         boolean resultat = false ;
-        Node origine1 ; 
+        /*Node origine1 ; 
         Node origine2 ;
         Node origine3 ;
         Node destination1 = new Node(0,null);
         Node destination2 = new Node(0,null) ;
         int index_liste = 0 ;
-        boolean incrementation = false ;
+        boolean incrementation = false ;*/
+        Arc arc_courant = null ;
+        Arc arc_suivant = null ;
+
+        // tester première condition puis boucler sur la liste
+        // récupérer l'arc courant et l'arc suivant
+        // tester que arc_courant.destination = arc_suivant.origine
 
         // si le chemin est vide 
         if (this.isEmpty()) {
             resultat = true ;
 
-        // si le chemin ne contient qu'un noeud, sans arcs
+        //si le chemin ne contient qu'un noeud, sans arcs
         } else if (this.isEmpty() == false && this.size() == 1) {
             resultat = true ;
+            // si, pour deux itération, la destiantion du premier arc correpsond à l'origine du second
+            for(int i = 0 ; i<2 ; i++) {
+                arc_courant = arcs.get(i) ;
+                arc_suivant = arcs.get(i+1) ;
+                if(arc_courant.getDestination() == arc_suivant.getOrigin()) {
+                    resultat = resultat && true ;
+                }
+            }
+        }
+        return resultat ;
 
-        /* si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
-        la destination du premier est l'origine du second*/ 
-        } else {
+        // si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
+        // la destination du premier est l'origine du second*/ 
+        /* } else {
 
             for (Arc a : arcs) {
                 // premier arc a pour origine l'origine du chemin :
@@ -306,7 +322,7 @@ public class Path {
             }
         }
         
-        return resultat ;
+        return resultat ;*/
     }
 
     /**
