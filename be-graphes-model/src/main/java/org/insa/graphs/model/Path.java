@@ -31,35 +31,40 @@ public class Path {
             throws IllegalArgumentException {
         ArrayList<Arc> arcs = new ArrayList<Arc>();
         // TODO:
-        Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
-        int i=0;
-        double time_min= 1000000000;
+        Node n_prec = new Node(0, null); // on va stocker le noeud précédent
+        int i = 0;
+        double time_min = 1000000000;
         Arc arc_selectionne = null;
-        boolean found=false;
-        for (Node n : nodes){
-            if (i==0){
-                n_prec=n;
+        boolean found;
+        for (Node n : nodes) {
+            found = false;
+            if (i == 0) {
+                n_prec = n;
             }
-            else{
+            else {
                 i++;
-                if (n_prec.hasSuccessors()){
-                    for (Arc a: n_prec.getSuccessors()){
-                        if (a.getDestination().equals(n)){ //on sélectionne les arcs qui ont la destination que l'on veut
-                            if (a.getMinimumTravelTime()<time_min){ // on prend celui qui a la plus petite durée
-                                arc_selectionne=a;
-                                found=true;
+                if (n_prec.hasSuccessors()) {
+                    for (Arc a : n_prec.getSuccessors()) {
+                        if (a.getDestination().equals(n)) { // on sélectionne les arcs
+                                                            // qui ont la destination
+                                                            // que l'on veut
+                            if (a.getMinimumTravelTime() < time_min) { // on prend celui
+                                                                       // qui a la plus
+                                                                       // petite durée
+                                arc_selectionne = a;
+                                found = true;
                             }
                         }
                     }
-                    
+
                 }
-                if(found==false){ 
+                if (found == false) {
                     throw new IllegalArgumentException();
                 }
-                else{
+                else {
                     arcs.add(arc_selectionne);
-                    
-                    time_min=1000000000;
+
+                    time_min = 1000000000;
                 }
             }
         }
@@ -80,34 +85,38 @@ public class Path {
             throws IllegalArgumentException {
         ArrayList<Arc> arcs = new ArrayList<Arc>();
         // TODO:
-        Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
-        int i=0;
-        int lenght_min= 1000000;
+        Node n_prec = new Node(0, null); // on va stocker le noeud précédent
+        int i = 0;
+        int lenght_min = 1000000;
         Arc arc_selectionne = null;
-        boolean found=false;
-        for (Node n : nodes){
-            if (i==0){
-                n_prec=n;
+        boolean found = false;
+        for (Node n : nodes) {
+            found = false;
+            if (i == 0) {
+                n_prec = n;
             }
-            else{
+            else {
                 i++;
-                if (n_prec.hasSuccessors()){
-                    for (Arc a: n_prec.getSuccessors()){
-                        if (a.getDestination().equals(n)){ //on sélectionne les arcs qui ont la destination que l'on veut
-                            if (a.getLength()<lenght_min){ // on prend celui qui a la plus petite longueur 
-                                arc_selectionne=a;
-                                found=true;
+                if (n_prec.hasSuccessors()) {
+                    for (Arc a : n_prec.getSuccessors()) {
+                        if (a.getDestination().equals(n)) { // on sélectionne les arcs
+                                                            // qui ont la destination
+                                                            // que l'on veut
+                            if (a.getLength() < lenght_min) { // on prend celui qui a la
+                                                              // plus petite longueur
+                                arc_selectionne = a;
+                                found = true;
                             }
                         }
                     }
-                    
+
                 }
-                if(found==false){ 
+                if (found == false) {
                     throw new IllegalArgumentException();
                 }
-                else{
+                else {
                     arcs.add(arc_selectionne);
-                    lenght_min=1000000;
+                    lenght_min = 1000000;
                 }
             }
         }
@@ -248,65 +257,71 @@ public class Path {
      * @return true if the path is valid, false otherwise.
      */
     public boolean isValid() {
-        boolean resultat = false ;
-        Node origine1 ; 
-        Node origine2 ;
-        Node origine3 ;
-        Node destination1 = new Node(0,null);
-        Node destination2 = new Node(0,null) ;
-        int index_liste = 0 ;
-        boolean incrementation = false ;
+        boolean resultat = false;
+        Node origine1;
+        Node origine2;
+        Node origine3;
+        Node destination1 = new Node(0, null);
+        Node destination2 = new Node(0, null);
+        int index_liste = 0;
+        boolean incrementation = false;
 
-        // si le chemin est vide 
+        // si le chemin est vide
         if (this.isEmpty()) {
-            resultat = true ;
+            resultat = true;
 
-        // si le chemin ne contient qu'un noeud, sans arcs
-        } else if (this.isEmpty() == false && this.size() == 1) {
-            resultat = true ;
+            // si le chemin ne contient qu'un noeud, sans arcs
+        }
+        else if (this.isEmpty() == false && this.size() == 1) {
+            resultat = true;
 
-        /* si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
-        la destination du premier est l'origine du second*/ 
-        } else {
+            /*
+             * si le premier arc a pour origine l'origine du chemin, et que pour deux
+             * arcs consécutifs, la destination du premier est l'origine du second
+             */
+        }
+        else {
 
             for (Arc a : arcs) {
                 // premier arc a pour origine l'origine du chemin :
-                incrementation = false ;
+                incrementation = false;
                 if (index_liste == 0 && incrementation == false) {
-                    origine1 = a.getOrigin() ;
-                    destination1 = a.getDestination() ;
+                    origine1 = a.getOrigin();
+                    destination1 = a.getDestination();
                     if (origine1 == this.origin) {
-                        resultat = true ;
-                        index_liste++ ;
-                        incrementation = true ;
+                        resultat = true;
+                        index_liste++;
+                        incrementation = true;
                     }
                 }
-                    
+
                 // deuxième arc a pour origine la destination du précedent
-                // on teste d'abord index_liste pour vérifier que la première condition est remplie
+                // on teste d'abord index_liste pour vérifier que la première condition
+                // est remplie
                 if (index_liste == 1 && incrementation == false) {
-                    origine2 = a.getOrigin() ;
-                    destination2 = a.getDestination() ;
+                    origine2 = a.getOrigin();
+                    destination2 = a.getDestination();
                     if (origine2 == destination1) {
-                        resultat = true ;
-                        index_liste++ ;
-                        incrementation = true ;
+                        resultat = true;
+                        index_liste++;
+                        incrementation = true;
                     }
                 }
                 // troisième arc a pour origine la destination du précent
-                // on teste d'abord index_liste ppur vérifier que les deux premières conditions sont remplies
+                // on teste d'abord index_liste ppur vérifier que les deux premières
+                // conditions sont remplies
                 if (index_liste == 2 && incrementation == false) {
-                    origine3 = a.getOrigin() ;
+                    origine3 = a.getOrigin();
                     if (origine3 == destination2) {
-                        resultat = true ;
-                        index_liste ++ ;
-                        incrementation = true ;
+                        resultat = true;
+                        index_liste++;
+                        incrementation = true;
                     }
                 }
             }
         }
-        
-        return resultat ;
+
+        return resultat;
     }
 
     /**
@@ -316,9 +331,9 @@ public class Path {
      */
     public float getLength() {
         // parcourt le chemin et additionne les valeurs des arcs
-        float longueur = 0 ;
+        float longueur = 0;
         for (Arc a : arcs) {
-            longueur += a.getLength() ;
+            longueur += a.getLength();
         }
         return longueur;
     }
@@ -331,9 +346,9 @@ public class Path {
      *         kilometers-per-hour).
      */
     public double getTravelTime(double speed) {
-        double vitesse = speed/3.6; //conversion vitesse en m/sec
-        double time; 
-        time = this.getLength()/vitesse;
+        double vitesse = speed / 3.6; // conversion vitesse en m/sec
+        double time;
+        time = this.getLength() / vitesse;
         return time;
     }
 
@@ -344,9 +359,9 @@ public class Path {
      * @return Minimum travel time to travel this path (in seconds).
      */
     public double getMinimumTravelTime() {
-        double time =0; 
-        for (Arc a: arcs){
-            time+=a.getMinimumTravelTime();
+        double time = 0;
+        for (Arc a : arcs) {
+            time += a.getMinimumTravelTime();
         }
         return time;
     }
