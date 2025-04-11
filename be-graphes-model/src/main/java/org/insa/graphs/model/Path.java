@@ -252,8 +252,8 @@ public class Path {
         Node origine1 ; 
         Node origine2 ;
         Node origine3 ;
-        Node destination1 ;
-        Node destination2 ;
+        Node destination1 = new Node(0,null);
+        Node destination2 = new Node(0,null) ;
         int index_liste = 0 ;
         boolean incrementation = false ;
 
