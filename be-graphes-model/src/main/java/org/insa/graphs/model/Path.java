@@ -1,5 +1,6 @@
 package org.insa.graphs.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,9 +27,9 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      */
-    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
+    public static Path createFastestPathFromNodes(Graph graph, ArrayList<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
+        ArrayList<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
         int i=0;
@@ -74,9 +75,9 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      */
-    public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
+    public static Path createShortestPathFromNodes(Graph graph, ArrayList<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
+        ArrayList<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
         int i=0;
