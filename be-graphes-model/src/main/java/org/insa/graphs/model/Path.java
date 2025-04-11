@@ -34,7 +34,7 @@ public class Path {
         Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
         int i=0;
         double time_min= 1000000000;
-        Arc arc_selectionne;
+        Arc arc_selectionne = null;
         boolean found=false;
         for (Node n : nodes){
             if (i==0){
@@ -58,6 +58,7 @@ public class Path {
                 }
                 else{
                     arcs.add(arc_selectionne);
+                    
                     time_min=1000000000;
                 }
             }
@@ -82,7 +83,7 @@ public class Path {
         Node n_prec=new Node(0,null); //on va stocker le noeud précédent 
         int i=0;
         int lenght_min= 1000000;
-        Arc arc_selectionne;
+        Arc arc_selectionne = null;
         boolean found=false;
         for (Node n : nodes){
             if (i==0){
