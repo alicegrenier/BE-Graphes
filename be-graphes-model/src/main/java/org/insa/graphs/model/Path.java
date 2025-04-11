@@ -248,7 +248,6 @@ public class Path {
      */
     public boolean isValid() {
         boolean resultat = false ;
-        Arc arc_etudie ;
         Node origine1 ; 
         Node origine2 ;
         Node origine3 ;
