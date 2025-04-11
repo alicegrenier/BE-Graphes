@@ -257,6 +257,7 @@ public class Path {
      * @return true if the path is valid, false otherwise.
      */
     public boolean isValid() {
+<<<<<<< HEAD
         boolean resultat = false;
         Node origine1;
         Node origine2;
@@ -265,11 +266,28 @@ public class Path {
         Node destination2 = new Node(0, null);
         int index_liste = 0;
         boolean incrementation = false;
+=======
+        boolean resultat = false ;
+        /*Node origine1 ; 
+        Node origine2 ;
+        Node origine3 ;
+        Node destination1 = new Node(0,null);
+        Node destination2 = new Node(0,null) ;
+        int index_liste = 0 ;
+        boolean incrementation = false ;*/
+        Arc arc_courant = null ;
+        Arc arc_suivant = null ;
+
+        // tester première condition puis boucler sur la liste
+        // récupérer l'arc courant et l'arc suivant
+        // tester que arc_courant.destination = arc_suivant.origine
+>>>>>>> f94d8d9fc2bf54cc989d6ab898b577c43aaf1644
 
         // si le chemin est vide
         if (this.isEmpty()) {
             resultat = true;
 
+<<<<<<< HEAD
             // si le chemin ne contient qu'un noeud, sans arcs
         }
         else if (this.isEmpty() == false && this.size() == 1) {
@@ -281,6 +299,25 @@ public class Path {
              */
         }
         else {
+=======
+        //si le chemin ne contient qu'un noeud, sans arcs
+        } else if (this.isEmpty() == false && this.size() == 1) {
+            resultat = true ;
+            // si, pour deux itération, la destiantion du premier arc correpsond à l'origine du second
+            for(int i = 0 ; i<2 ; i++) {
+                arc_courant = arcs.get(i) ;
+                arc_suivant = arcs.get(i+1) ;
+                if(arc_courant.getDestination() == arc_suivant.getOrigin()) {
+                    resultat = resultat && true ;
+                }
+            }
+        }
+        return resultat ;
+
+        // si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
+        // la destination du premier est l'origine du second*/ 
+        /* } else {
+>>>>>>> f94d8d9fc2bf54cc989d6ab898b577c43aaf1644
 
             for (Arc a : arcs) {
                 // premier arc a pour origine l'origine du chemin :
@@ -320,8 +357,13 @@ public class Path {
                 }
             }
         }
+<<<<<<< HEAD
 
         return resultat;
+=======
+        
+        return resultat ;*/
+>>>>>>> f94d8d9fc2bf54cc989d6ab898b577c43aaf1644
     }
 
     /**
