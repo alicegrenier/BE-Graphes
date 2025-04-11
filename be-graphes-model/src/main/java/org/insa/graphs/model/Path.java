@@ -286,10 +286,13 @@ public class Path {
              */
         } else {
             // si, pour deux itérations, la destination du premier arc correspond à l'origine du second
-            for(int i = 0 ; i < 2 ; i++) {
-                arc_courant = arcs.get(i) ;
-                arc_suivant = arcs.get(i+1) ;
-                resultat = resultat && (arc_courant.getDestination() == arc_suivant.getOrigin()) ;
+            for(int i = 0 ; i < this.arcs.size() ; i++) {
+                if  (i<2) {
+                    arc_courant = this.arcs.get(i) ;
+                    arc_suivant = this.arcs.get(i+1) ;
+                    resultat = resultat && (arc_courant.getDestination() == arc_suivant.getOrigin()) ;
+                }
+                
             }
         }
         return resultat ;
