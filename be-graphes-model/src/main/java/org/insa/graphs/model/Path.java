@@ -29,7 +29,7 @@ public class Path {
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        ArrayList<Arc> arcs = new ArrayList<Arc>();
+        List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         Node n_prec = new Node(0, null); // on va stocker le noeud précédent
         int i = 0;
@@ -83,13 +83,13 @@ public class Path {
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        ArrayList<Arc> arcs = new ArrayList<Arc>();
+        List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         Node n_prec = new Node(0, null); // on va stocker le noeud précédent
         int i = 0;
         int lenght_min = 1000000;
+        boolean found;
         Arc arc_selectionne = null;
-        boolean found = false;
         for (Node n : nodes) {
             found = false;
             if (i == 0) {
@@ -109,7 +109,6 @@ public class Path {
                             }
                         }
                     }
-
                 }
                 if (found == false) {
                     throw new IllegalArgumentException();
@@ -257,16 +256,14 @@ public class Path {
      * @return true if the path is valid, false otherwise.
      */
     public boolean isValid() {
-        /*Node origine1 ; 
-        Node origine2 ;
-        Node origine3 ;
-        Node destination1 = new Node(0,null);
-        Node destination2 = new Node(0,null) ;
-        int index_liste = 0 ;
-        boolean incrementation = false ;*/
-        Arc arc_courant = null ;
-        Arc arc_suivant = null ;
-        boolean resultat = false ;
+        /*
+         * Node origine1 ; Node origine2 ; Node origine3 ; Node destination1 = new
+         * Node(0,null); Node destination2 = new Node(0,null) ; int index_liste = 0 ;
+         * boolean incrementation = false ;
+         */
+        Arc arc_courant = null;
+        Arc arc_suivant = null;
+        boolean resultat = false;
 
         // tester première condition puis boucler sur la liste
         // récupérer l'arc courant et l'arc suivant
@@ -277,69 +274,53 @@ public class Path {
             resultat = true;
 
             // si le chemin ne contient qu'un noeud, sans arcs
-        } else if (this.isEmpty() == false && this.size() == 1) {
+        }
+        else if (this.isEmpty() == false && this.size() == 1) {
             resultat = true;
 
             /*
              * si le premier arc a pour origine l'origine du chemin, et que pour deux
              * arcs consécutifs, la destination du premier est l'origine du second
              */
-        } else {
-            // si, pour deux itérations, la destination du premier arc correspond à l'origine du second
-            for(int i = 0 ; i < 2 ; i++) {
-                arc_courant = arcs.get(i) ;
-                arc_suivant = arcs.get(i+1) ;
-                resultat = resultat && (arc_courant.getDestination() == arc_suivant.getOrigin()) ;
+        }
+        else {
+            // si, pour deux itérations, la destination du premier arc correspond à
+            // l'origine du second
+            for (int i = 0; i < 2; i++) {
+                arc_courant = arcs.get(i);
+                arc_suivant = arcs.get(i + 1);
+                resultat = resultat
+                        && (arc_courant.getDestination() == arc_suivant.getOrigin());
             }
         }
-        return resultat ;
-
-        // si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
-        // la destination du premier est l'origine du second*/ 
-        /* } else {
-
-            for (Arc a : arcs) {
-                // premier arc a pour origine l'origine du chemin :
-                incrementation = false;
-                if (index_liste == 0 && incrementation == false) {
-                    origine1 = a.getOrigin();
-                    destination1 = a.getDestination();
-                    if (origine1 == this.origin) {
-                        resultat = true;
-                        index_liste++;
-                        incrementation = true;
-                    }
-                }
-
-                // deuxième arc a pour origine la destination du précedent
-                // on teste d'abord index_liste pour vérifier que la première condition
-                // est remplie
-                if (index_liste == 1 && incrementation == false) {
-                    origine2 = a.getOrigin();
-                    destination2 = a.getDestination();
-                    if (origine2 == destination1) {
-                        resultat = true;
-                        index_liste++;
-                        incrementation = true;
-                    }
-                }
-                // troisième arc a pour origine la destination du précent
-                // on teste d'abord index_liste ppur vérifier que les deux premières
-                // conditions sont remplies
-                if (index_liste == 2 && incrementation == false) {
-                    origine3 = a.getOrigin();
-                    if (origine3 == destination2) {
-                        resultat = true;
-                        index_liste++;
-                        incrementation = true;
-                    }
-                }
-            }
-        }
-
         return resultat;
-        
-        return resultat ;*/
+
+        // si le premier arc a pour origine l'origine du chemin, et que pour deux arcs
+        // consécutifs,
+        // la destination du premier est l'origine du second*/
+        /*
+         * } else {
+         *
+         * for (Arc a : arcs) { // premier arc a pour origine l'origine du chemin :
+         * incrementation = false; if (index_liste == 0 && incrementation == false) {
+         * origine1 = a.getOrigin(); destination1 = a.getDestination(); if (origine1 ==
+         * this.origin) { resultat = true; index_liste++; incrementation = true; } }
+         *
+         * // deuxième arc a pour origine la destination du précedent // on teste
+         * d'abord index_liste pour vérifier que la première condition // est remplie if
+         * (index_liste == 1 && incrementation == false) { origine2 = a.getOrigin();
+         * destination2 = a.getDestination(); if (origine2 == destination1) { resultat =
+         * true; index_liste++; incrementation = true; } } // troisième arc a pour
+         * origine la destination du précent // on teste d'abord index_liste ppur
+         * vérifier que les deux premières // conditions sont remplies if (index_liste
+         * == 2 && incrementation == false) { origine3 = a.getOrigin(); if (origine3 ==
+         * destination2) { resultat = true; index_liste++; incrementation = true; } } }
+         * }
+         *
+         * return resultat;
+         *
+         * return resultat ;
+         */
     }
 
     /**
