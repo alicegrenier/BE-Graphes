@@ -40,6 +40,7 @@ public class Path {
             found = false;
             if (i == 0) {
                 n_prec = n;
+                i++;
             }
             else {
                 i++;
@@ -68,7 +69,8 @@ public class Path {
                 }
             }
         }
-        return new Path(graph, arcs);
+        Path path_final = new Path(graph, arcs);
+        return path_final;
     }
 
     /**
@@ -94,6 +96,7 @@ public class Path {
             found = false;
             if (i == 0) {
                 n_prec = n;
+                i++;
             }
             else {
                 i++;
@@ -256,8 +259,8 @@ public class Path {
      * @return true if the path is valid, false otherwise.
      */
     public boolean isValid() {
-        Arc arc_courant = null ;
-        Arc arc_suivant = null ;
+        Arc arc_courant = null;
+        Arc arc_suivant = null;
 
         // tester première condition puis boucler sur la liste
         // récupérer l'arc courant et l'arc suivant
@@ -266,23 +269,25 @@ public class Path {
         // si le chemin est vide
         // si le chemin ne contient qu'un noeud, sans arcs
         if (this.isEmpty() || this.size() == 1) {
-            return true ;
+            return true;
 
             /*
              * si le premier arc a pour origine l'origine du chemin, et que pour deux
              * arcs consécutifs, la destination du premier est l'origine du second
              */
-        } else {
-            // si, pour deux itérations, la destination du premier arc correspond à l'origine du second
-            for (int i = 0 ; i < getArcs().size()-1 ; i++) {
-                arc_courant = getArcs().get(i) ;
-                arc_suivant = getArcs().get(i+1) ;
+        }
+        else {
+            // si, pour deux itérations, la destination du premier arc correspond à
+            // l'origine du second
+            for (int i = 0; i < getArcs().size() - 1; i++) {
+                arc_courant = getArcs().get(i);
+                arc_suivant = getArcs().get(i + 1);
                 if (arc_courant.getDestination() != arc_suivant.getOrigin()) {
-                    return false ;
+                    return false;
                 }
-                
+
             }
-            return true ;
+            return true;
         }
     }
 
