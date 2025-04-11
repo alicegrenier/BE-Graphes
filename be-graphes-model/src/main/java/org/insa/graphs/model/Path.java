@@ -270,13 +270,12 @@ public class Path {
         //si le chemin ne contient qu'un noeud, sans arcs
         } else if (this.isEmpty() == false && this.size() == 1) {
             resultat = true ;
-            // si, pour deux itération, la destiantion du premier arc correpsond à l'origine du second
-            for(int i = 0 ; i<2 ; i++) {
+        } else {
+            // si, pour deux itérations, la destination du premier arc correspond à l'origine du second
+            for(int i = 0 ; i < 2 ; i++) {
                 arc_courant = arcs.get(i) ;
                 arc_suivant = arcs.get(i+1) ;
-                if(arc_courant.getDestination() == arc_suivant.getOrigin()) {
-                    resultat = resultat && true ;
-                }
+                resultat = resultat && (arc_courant.getDestination() == arc_suivant.getOrigin()) ;
             }
         }
         return resultat ;
