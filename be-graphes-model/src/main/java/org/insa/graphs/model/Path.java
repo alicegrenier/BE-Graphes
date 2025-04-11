@@ -257,28 +257,17 @@ public class Path {
      * @return true if the path is valid, false otherwise.
      */
     public boolean isValid() {
-        /*Node origine1 ; 
-        Node origine2 ;
-        Node origine3 ;
-        Node destination1 = new Node(0,null);
-        Node destination2 = new Node(0,null) ;
-        int index_liste = 0 ;
-        boolean incrementation = false ;*/
         Arc arc_courant = null ;
         Arc arc_suivant = null ;
-        boolean resultat = false ;
 
         // tester première condition puis boucler sur la liste
         // récupérer l'arc courant et l'arc suivant
         // tester que arc_courant.destination = arc_suivant.origine
 
         // si le chemin est vide
-        if (this.isEmpty()) {
-            resultat = true;
-
-            // si le chemin ne contient qu'un noeud, sans arcs
-        } else if (this.isEmpty() == false && this.size() == 1) {
-            resultat = true;
+        // si le chemin ne contient qu'un noeud, sans arcs
+        if (this.isEmpty() || this.size() == 1) {
+            return true ;
 
             /*
              * si le premier arc a pour origine l'origine du chemin, et que pour deux
@@ -287,61 +276,15 @@ public class Path {
         } else {
             // si, pour deux itérations, la destination du premier arc correspond à l'origine du second
             for (int i = 0 ; i < getArcs().size()-1 ; i++) {
-                if  (i<2) {
-                    arc_courant = getArcs().get(i) ;
-                    arc_suivant = getArcs().get(i+1) ;
-                    resultat = resultat && (arc_courant.getDestination() == arc_suivant.getOrigin()) ;
+                arc_courant = getArcs().get(i) ;
+                arc_suivant = getArcs().get(i+1) ;
+                if (arc_courant.getDestination() != arc_suivant.getOrigin()) {
+                    return false ;
                 }
+                
             }
+            return true ;
         }
-        return resultat ;
-
-        // si le premier arc a pour origine l'origine du chemin, et que pour deux arcs consécutifs, 
-        // la destination du premier est l'origine du second*/ 
-        /* } else {
-
-            for (Arc a : arcs) {
-                // premier arc a pour origine l'origine du chemin :
-                incrementation = false;
-                if (index_liste == 0 && incrementation == false) {
-                    origine1 = a.getOrigin();
-                    destination1 = a.getDestination();
-                    if (origine1 == this.origin) {
-                        resultat = true;
-                        index_liste++;
-                        incrementation = true;
-                    }
-                }
-
-                // deuxième arc a pour origine la destination du précedent
-                // on teste d'abord index_liste pour vérifier que la première condition
-                // est remplie
-                if (index_liste == 1 && incrementation == false) {
-                    origine2 = a.getOrigin();
-                    destination2 = a.getDestination();
-                    if (origine2 == destination1) {
-                        resultat = true;
-                        index_liste++;
-                        incrementation = true;
-                    }
-                }
-                // troisième arc a pour origine la destination du précent
-                // on teste d'abord index_liste ppur vérifier que les deux premières
-                // conditions sont remplies
-                if (index_liste == 2 && incrementation == false) {
-                    origine3 = a.getOrigin();
-                    if (origine3 == destination2) {
-                        resultat = true;
-                        index_liste++;
-                        incrementation = true;
-                    }
-                }
-            }
-        }
-
-        return resultat;
-        
-        return resultat ;*/
     }
 
     /**
