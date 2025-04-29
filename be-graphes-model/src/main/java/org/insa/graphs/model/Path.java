@@ -31,46 +31,55 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
-        Node n_prec = new Node(0, null); // on va stocker le noeud précédent
-        int i = 0;
-        double time_min = 1000000000;
-        Arc arc_selectionne = null;
-        boolean found;
-        for (Node n : nodes) {
-            found = false;
-            if (i == 0) {
-                n_prec = n;
-                i++;
-            }
-            else {
-                i++;
-                if (n_prec.hasSuccessors()) {
-                    for (Arc a : n_prec.getSuccessors()) {
-                        if (a.getDestination().equals(n)) { // on sélectionne les arcs
-                                                            // qui ont la destination
-                                                            // que l'on veut
-                            if (a.getMinimumTravelTime() < time_min) { // on prend celui
-                                                                       // qui a la durée
-                                                                       // la plus petite
-                                arc_selectionne = a;
-                                found = true;
-                                time_min = a.getMinimumTravelTime();
-                            }
-                        }
-                    }
-
-                }
-                if (found == false) {
-                    throw new IllegalArgumentException();
+        if (nodes.size() == 1) {
+            return new Path(graph, nodes.getFirst());
+        }
+        else {
+            Node n_prec = new Node(0, null); // on va stocker le noeud précédent
+            int i = 0;
+            double time_min = 1000000000;
+            Arc arc_selectionne = null;
+            boolean found;
+            for (Node n : nodes) {
+                found = false;
+                if (i == 0) {
+                    i++;
                 }
                 else {
-                    arcs.add(arc_selectionne);
-                    time_min = 1000000000;
+                    if (n_prec.hasSuccessors()) {
+                        for (Arc a : n_prec.getSuccessors()) {
+                            if (a.getDestination().equals(n)) { // on sélectionne les
+                                                                // arcs
+                                                                // qui ont la
+                                                                // destination
+                                                                // que l'on veut
+                                if (a.getMinimumTravelTime() < time_min) { // on prend
+                                                                           // celui
+                                                                           // qui a la
+                                                                           // durée
+                                                                           // la plus
+                                                                           // petite
+                                    arc_selectionne = a;
+                                    found = true;
+                                    time_min = a.getMinimumTravelTime();
+                                }
+                            }
+                        }
+
+                    }
+                    if (found == false) {
+                        throw new IllegalArgumentException();
+                    }
+                    else {
+                        arcs.add(arc_selectionne);
+                        time_min = 1000000000;
+                    }
                 }
+                n_prec = n;
             }
+            Path path_final = new Path(graph, arcs);
+            return path_final;
         }
-        Path path_final = new Path(graph, arcs);
-        return path_final;
     }
 
     /**
@@ -87,49 +96,64 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
-        Node n_prec = new Node(0, null); // on va stocker le noeud précédent
-        int i = 0;
-        float lenght_min = 100000000; // on essaie de prendre une valeur suffisamment
-                                      // grande
-        boolean found;
-        for (Node n : nodes) { // on va avoir besoin du noeud actuel et de son précédent
-                               // pour comparer les origines et destinations
-            found = false;
-            Arc arc_selectionne = null;
-            if (i == 0) { // donc pour la première itération, on n'a pas de précédent
-                n_prec = n;
-                i++;
-            }
-            else {
-                if (n_prec.hasSuccessors()) { // on vérifie que notre noeud précédent a
-                                              // des successeurs
-                    for (Arc a : n_prec.getSuccessors()) { // on parcourt les arcs qui
-                                                           // ont pour origine notre
-                                                           // noeud précédent
-                        if (a.getDestination().equals(n)) { // on sélectionne les arcs
-                                                            // qui ont la destination
-                                                            // que l'on veut
-                            if (a.getLength() <= lenght_min) { // on prend celui qui a
-                                                               // la
-                                                               // plus petite longueur
-                                arc_selectionne = a;
-                                found = true;
-                                lenght_min = arc_selectionne.getLength();
+        if (nodes.size() == 1) {
+            return new Path(graph, nodes.getFirst());
+        }
+        else {
+            Node n_prec = null; // on va stocker le noeud précédent
+            int i = 0;
+            float lenght_min = 100000000; // on essaie de prendre une valeur
+                                          // suffisamment
+                                          // grande
+            boolean found;
+            for (Node n : nodes) { // on va avoir besoin du noeud actuel et de son
+                                   // précédent
+                                   // pour comparer les origines et destinations
+                found = false;
+                Arc arc_selectionne = null;
+                if (i == 0) { // donc pour la première itération, on n'a pas de
+                              // précédent
+                    i++;
+                }
+                else {
+                    if (n_prec.hasSuccessors()) { // on vérifie que notre noeud
+                                                  // précédent a
+                                                  // des successeurs
+                        for (Arc a : n_prec.getSuccessors()) { // on parcourt les arcs
+                                                               // qui
+                                                               // ont pour origine notre
+                                                               // noeud précédent
+                            if (a.getDestination().equals(n)) { // on sélectionne les
+                                                                // arcs
+                                                                // qui ont la
+                                                                // destination
+                                                                // que l'on veut
+                                if (a.getLength() <= lenght_min) { // on prend celui qui
+                                                                   // a
+                                                                   // la
+                                                                   // plus petite
+                                                                   // longueur
+                                    arc_selectionne = a;
+                                    found = true;
+                                    lenght_min = arc_selectionne.getLength();
+                                }
                             }
                         }
                     }
+                    if (found == false) { // si on n'a trouvé aucun arc qui relie les
+                                          // deux
+                                          // noeuds, on lève l'exception
+                        throw new IllegalArgumentException();
+                    }
+                    else {
+                        arcs.add(arc_selectionne);
+                        lenght_min = 100000000;
+                    }
                 }
-                if (found == false) { // si on n'a trouvé aucun arc qui relie les deux
-                                      // noeuds, on lève l'exception
-                    throw new IllegalArgumentException();
-                }
-                else {
-                    arcs.add(arc_selectionne);
-                    lenght_min = 100000000;
-                }
+                n_prec = n;
             }
+            return new Path(graph, arcs);
         }
-        return new Path(graph, arcs);
     }
 
     /**
