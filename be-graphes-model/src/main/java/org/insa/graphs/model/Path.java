@@ -113,7 +113,7 @@ public class Path {
                 Arc arc_selectionne = null;
                 if (i == 0) { // donc pour la première itération, on n'a pas de
                               // précédent
-                    i++;
+                    i--;
                 }
                 else {
                     if (n_prec.hasSuccessors()) { // on vérifie que notre noeud
