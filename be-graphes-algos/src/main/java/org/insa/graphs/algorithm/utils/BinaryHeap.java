@@ -135,16 +135,18 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     @Override
     public void remove(E x) throws ElementNotFoundException {
         // TODO:
-        if (array.indexOf(x) != -1) { // si égal à -1 -> l'élément n'existe pas dans le tas
+        // petite remarque : indexOf n'est pas optimal pour la compléxité car il est en O(n) et comme on est dans un tas, on pourrait trouver une autre méthode en O(log n)
+        if ((array.indexOf(x) != -1)||(this.currentSize>0)) { // si égal à -1 -> l'élément n'existe pas dans le tas
             if (this.size() == 1) {
                 this.currentSize -= 1;
             } else {
                 int indexe = array.indexOf(x) ;
-                int dernier_element = this.currentSize - 1 ;
+                int dernier_element = this.currentSize -1;
                 arraySet(indexe, array.get(dernier_element)) ; // on met le dernier élément du tas à la place de l'élément que l'on veut enlever 
                 percolateDown(indexe) ; 
                 this.currentSize -= 1;
-                percolateUp(indexe) ; // pour que l'élément remplacé puisse se comparer avec les autres éléments qui sont à gauche mais sur la même ligne 
+                if (indexe != 0){
+                percolateUp(indexe) ;} // pour que l'élément remplacé puisse se comparer avec les autres éléments qui sont à gauche mais sur la même ligne 
             }
         } else {
             throw new ElementNotFoundException(x) ;
