@@ -138,7 +138,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         int index = array.indexOf(x) ;
         int dernier_element = this.currentSize - 1 ;
         arraySet(index, array.get(dernier_element)) ;
-        percolateDown(index) ;
+        percolateDown(index) ; // le cinquième test ne marche pas
         this.currentSize -= 1;
     }
 
