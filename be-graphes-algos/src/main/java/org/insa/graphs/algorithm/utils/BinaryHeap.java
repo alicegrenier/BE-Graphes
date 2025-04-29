@@ -145,8 +145,6 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
                 percolateDown(indexe) ; // le cinquième test ne marche pas
                 this.currentSize -= 1;
                 percolateUp(indexe) ;
-                System.out.println("cet élément n'existe pas") ;
-                
             }
         } else {
             throw new ElementNotFoundException(x) ;
