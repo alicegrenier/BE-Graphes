@@ -32,7 +32,7 @@ public class Path {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         if (nodes.size() == 1) {
-            return new Path(graph, nodes.getFirst());
+            return new Path(graph, nodes.get(0));
         }
         else {
             Node n_prec = new Node(0, null); // on va stocker le noeud précédent
@@ -97,7 +97,7 @@ public class Path {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         if (nodes.size() == 1) {
-            return new Path(graph, nodes.getFirst());
+            return new Path(graph, nodes.get(0));
         }
         else {
             Node n_prec = null; // on va stocker le noeud précédent
