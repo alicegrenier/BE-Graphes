@@ -1,11 +1,12 @@
 package org.insa.graphs.algorithm.shortestpath;
-//import java.util.* ;
+import java.lang.* ;
+import java.util.* ;
 //import org.insa.graphs.model.Arc;
 //import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 //import org.insa.graphs.model.Path;
 
-public class Label {
+public class Label implements Comparable<Label> {
 
     // attributs :
 
@@ -31,6 +32,10 @@ public class Label {
     }
 
     // méthodes :
+
+    public int compareTo(Label label) {
+        return this.cout_realise - label.getCost() ;
+    }
 
     public Node getSommetCourant() {
         return this.sommet_courant ;

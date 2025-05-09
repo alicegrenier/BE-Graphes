@@ -48,21 +48,25 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
         */
         ArrayList<Label> label_sommets ;
-        label_sommets = new ArrayList<Label> () ; // initialisation du tableau des labels
+        label_sommets = new ArrayList<Label> () ; // création du tableau des labels
         Label label_courant = new Label(null, false, 0, null) ;
 
+        // initialisation du tableau des labels
         for (int i = 0; i < nb_total_sommets; i++) {
-            label_courant.getCost() = 1000000000 ;
+            
+            label_courant.setCost(1000000000) ; // cout(i) = + inf
+            label_courant.setMarque(false); // marque(i) = false
+            label_courant.setPere(null); // pere(i) + inexistant
 
-            label_sommets.add(i,label_courant) ;
+            label_sommets.add(i,label_courant) ; // ajout du label complet du sommet au tableau des labels
         }
 
         // initialisation du tas
-        BinaryHeap tas = new BinaryHeap() ;
+        BinaryHeap<Label> tas = new BinaryHeap<Label>() ;
 
-        Label origine = new Label(data.getOrigin(), false, 0, null) ;
-        label_sommets.set(0,origine) ;
-        tas(0, data.getOrigin()) ;
+        // Label origine = new Label(data.getOrigin(), false, 0, null) ;
+        label_sommets.set(0,label_sommets.get(0)) ;
+        tas.arraySet(0, label_sommets.get(0)) ;
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
         int sommets_marqués = 0 ;
