@@ -1,10 +1,12 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 import java.util.ArrayList;
+import java.lang.* ;
 
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
+import org.insa.graphs.model.Arc;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
@@ -71,12 +73,38 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         tas.insert(label_sommets.get(0)) ;
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
-        int sommets_marqués = 0 ;
+        int sommets_marques = 0 ;
+        int new_cost ;
+        int old_cost ;
 
         /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
 
-        while(sommets_marqués <= nb_total_sommets) {
+        Label min_tas = null ;
+        while(sommets_marques <= nb_total_sommets) {
+            min_tas = tas.deleteMin() ;
+            min_tas.setMarque(true);
+            label_sommets.set(min_tas.getSommetCourant().getId(),min_tas) ;
+            sommets_marques++ ;
 
+            for (Arc arc : min_tas.getSommetCourant().getSuccessors()) { // boucle sur tous les successeurs de min_tas
+
+                Node destinataire = arc.getDestination() ; // sommet étudié
+                Label label_destinataire = label_sommets.get(destinataire.getId()) ; // label du sommet étudié
+
+                if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
+                // affecter comme coût à ce sommet le minimum entr son coût et le poids de l'arc
+                    old_cost = label_destinataire.getCost() ;
+                    new_cost = min_tas.getCost() + (int)data.getCost(arc) ;
+
+                    if (new_cost < old_cost) { // on regarde quel coût est minimal
+                        // si c'est le nouveau coût, on met à jour la valeur du coût du sommet étudié
+                        label_destinataire.setCost(new_cost);
+                        tas.insert(label_destinataire) ;
+                        label_destinataire.setPere(min_tas.getSommetCourant());
+                        label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
+                    }
+                }
+            }
         }
 
         // when the algorithm terminates, return the solution that has been found
