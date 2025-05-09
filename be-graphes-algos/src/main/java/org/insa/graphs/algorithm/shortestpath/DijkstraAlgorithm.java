@@ -2,6 +2,8 @@ package org.insa.graphs.algorithm.shortestpath;
 
 import java.util.ArrayList;
 
+import org.insa.graphs.algorithm.utils.BinaryHeap;
+import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -25,7 +27,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
 
         // TODO: implement the Dijkstra algorithm
-        /* 
+        /* -----------------------------------------------------------initialisation--------------------------------------------------------------------------------
         * initialisation : la file de priorité ne contient que le sommet d'origine
         * - initialisation du tableau des labels
         * - initialisation du tas
@@ -36,27 +38,40 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         * - cout(origine) <= 0
         * - Insérer(s,tas)
         */ 
-        /* tableau de n cases permettant de stocker les labels sans modifier les classes des sommets 
-     * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
-    */
+        
+        // récupérer le graphe
+        Graph graph = data.getGraph();
+        int nb_total_sommets = graph.size() ;
 
-        /*ArrayList<Label> label_sommets ;
+        /* 
+        * tableau de n cases permettant de stocker les labels sans modifier les classes des sommets 
+        * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
+        */
+        ArrayList<Label> label_sommets ;
         label_sommets = new ArrayList<Label> () ; // initialisation du tableau des labels
+        Label label_courant = new Label(null, false, 0, null) ;
+
+        for (int i = 0; i < nb_total_sommets; i++) {
+            label_courant.getCost() = 1000000000 ;
+
+            label_sommets.add(i,label_courant) ;
+        }
+
+        // initialisation du tas
         BinaryHeap tas = new BinaryHeap() ;
 
         Label origine = new Label(data.getOrigin(), false, 0, null) ;
         label_sommets.set(0,origine) ;
-        tas(0, data.getOrigin()) ;*/
+        tas(0, data.getOrigin()) ;
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
-        /*int sommets_marqués = 0 ;
-        int */
+        int sommets_marqués = 0 ;
 
-        /* itérations */
+        /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
 
-        /*while(sommets_marqués) {
+        while(sommets_marqués <= nb_total_sommets) {
 
-        }*/
+        }
 
         // when the algorithm terminates, return the solution that has been found
         return solution;

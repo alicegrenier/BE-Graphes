@@ -47,4 +47,20 @@ public class Label {
     public Node getPere() {
         return this.pere ; 
     }
+
+    public void setSommetCourant(Node x) {
+        this.sommet_courant = x ;
+    }
+
+    public void setMarque(boolean x) {
+        this.marque = x ;
+    }
+
+    public void setCost(int x) {
+        this.cout_realise = x ;
+    }
+
+    public void setPere(Node x) {
+        this.pere = x ;
+    }
 }
