@@ -17,13 +17,20 @@ public class Label {
     private Node pere ; // sommet précédent sur le chemin correpsondant au plus court chemin courant
     // plutôt stocker l'arc ????????
 
+    /* tableau de n cases permettant de stocker les labels sans modifier les classes des sommets 
+     * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
+    */
+
+    public ArrayList<Node> sommets ;
+
     // constructeur :
 
     public Label(Node init_sommet_courant, boolean init_marque, int init_cout, Node init_pere) {
-        this.sommet_courant = init_sommet_courant ,
+        this.sommet_courant = init_sommet_courant ;
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
         this.pere = init_pere ;
+        sommets = new ArrayList<Nodes> () ; // initialisation du tableau des labels
     }
 
     // méthodes :
