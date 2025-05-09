@@ -1,4 +1,5 @@
 package org.insa.graphs.algorithm.utils;
+import org.insa.graphs.model.Node;
 
 import java.util.ArrayList;
 

@@ -14,14 +14,10 @@ public class Label {
 
     private int cout_realise ; // valeur courante du plus court chemin depuis l'origine vers le sommet
 
-    private Node pere ; // sommet précédent sur le chemin correpsondant au plus court chemin courant
+    private Node pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
     // plutôt stocker l'arc ????????
 
-    /* tableau de n cases permettant de stocker les labels sans modifier les classes des sommets 
-     * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
-    */
-
-    public ArrayList<Node> sommets ;
+    
 
     // constructeur :
 
@@ -30,7 +26,7 @@ public class Label {
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
         this.pere = init_pere ;
-        sommets = new ArrayList<Nodes> () ; // initialisation du tableau des labels
+        
     }
 
     // méthodes :
