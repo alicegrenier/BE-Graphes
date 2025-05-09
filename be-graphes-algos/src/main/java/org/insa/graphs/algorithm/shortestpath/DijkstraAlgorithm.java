@@ -54,6 +54,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // initialisation du tableau des labels
         for (int i = 0; i < nb_total_sommets; i++) {
             
+            label_courant.setSommetCourant(graph.get(i));
             label_courant.setCost(1000000000) ; // cout(i) = + inf
             label_courant.setMarque(false); // marque(i) = false
             label_courant.setPere(null); // pere(i) + inexistant
@@ -64,9 +65,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // initialisation du tas
         BinaryHeap<Label> tas = new BinaryHeap<Label>() ;
 
-        // Label origine = new Label(data.getOrigin(), false, 0, null) ;
-        label_sommets.set(0,label_sommets.get(0)) ;
-        tas.arraySet(0, label_sommets.get(0)) ;
+        // création d'un label avec un cout à zéro pour l'origine (on écrase la valeur intialisée dnas la boucle for, qui était + inf)
+        Label origine = new Label(data.getOrigin(), false, 0, null) ;
+        label_sommets.set(0,origine) ; // cout(s) = 0
+        tas.insert(label_sommets.get(0)) ;
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
         int sommets_marqués = 0 ;
