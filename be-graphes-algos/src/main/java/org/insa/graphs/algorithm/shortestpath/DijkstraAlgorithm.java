@@ -40,19 +40,23 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
     */
 
-        ArrayList<Label> label_sommets ;
+        /*ArrayList<Label> label_sommets ;
         label_sommets = new ArrayList<Label> () ; // initialisation du tableau des labels
         BinaryHeap tas = new BinaryHeap() ;
 
         Label origine = new Label(data.getOrigin(), false, 0, null) ;
         label_sommets.set(0,origine) ;
-        tas(0, data.getOrigin()) ;
+        tas(0, data.getOrigin()) ;*/
+
+        // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
+        /*int sommets_marqués = 0 ;
+        int */
 
         /* itérations */
 
-        while() {
-            
-        }
+        /*while(sommets_marqués) {
+
+        }*/
 
         // when the algorithm terminates, return the solution that has been found
         return solution;
