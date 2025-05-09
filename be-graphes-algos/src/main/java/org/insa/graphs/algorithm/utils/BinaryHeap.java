@@ -136,19 +136,21 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     public void remove(E x) throws ElementNotFoundException {
         // TODO:
         // petite remarque : indexOf n'est pas optimal pour la compléxité car il est en O(n) et comme on est dans un tas, on pourrait trouver une autre méthode en O(log n)
-        if ((array.indexOf(x) != -1)||(this.currentSize>0)) { // si égal à -1 -> l'élément n'existe pas dans le tas
-            if (this.size() == 1) {
+        int indexe = this.array.indexOf(x) ;
+        int dernier_element = this.currentSize -1;
+        if ((indexe >=0 )||(this.currentSize> 0)||(indexe<this.currentSize)) { // si égal à -1 -> l'élément n'existe pas dans le tas
+            if (indexe == dernier_element) {//si on enlève le dernier élément, pas besoin de percolateDown et percolateUp
                 this.currentSize -= 1;
-            } else {
-                int indexe = array.indexOf(x) ;
-                int dernier_element = this.currentSize -1;
-                arraySet(indexe, array.get(dernier_element)) ; // on met le dernier élément du tas à la place de l'élément que l'on veut enlever 
+            } else { 
+                array.set(indexe, array.get(dernier_element)) ; // on met le dernier élément du tas à la place de l'élément que l'on veut enlever 
                 percolateDown(indexe) ; 
                 this.currentSize -= 1;
-                if (indexe != 0){
-                percolateUp(indexe) ;} // pour que l'élément remplacé puisse se comparer avec les autres éléments qui sont à gauche mais sur la même ligne 
+                if (indexe > 1){
+                    percolateUp(indexe) ;
+                } // pour que l'élément remplacé puisse se comparer avec les autres éléments qui sont à gauche mais sur la même ligne 
             }
-        } else {
+        } 
+        else {
             throw new ElementNotFoundException(x) ;
         }
         
