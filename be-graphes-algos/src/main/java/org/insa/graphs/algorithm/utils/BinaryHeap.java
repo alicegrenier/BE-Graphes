@@ -139,7 +139,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         // petite remarque : indexOf n'est pas optimal pour la compléxité car il est en O(n) et comme on est dans un tas, on pourrait trouver une autre méthode en O(log n)
         int indexe = this.array.indexOf(x) ;
         int dernier_element = this.currentSize -1;
-        if ((indexe >=0 )||(this.currentSize> 0)||(indexe<this.currentSize)) { // si égal à -1 -> l'élément n'existe pas dans le tas
+        if ((indexe >=0 )&&(this.currentSize> 0)&&(indexe<this.currentSize)) { // si égal à -1 -> l'élément n'existe pas dans le tas
             if (indexe == dernier_element) {//si on enlève le dernier élément, pas besoin de percolateDown et percolateUp
                 this.currentSize -= 1;
             } else { 
