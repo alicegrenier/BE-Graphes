@@ -19,6 +19,8 @@ public class Label implements Comparable<Label> {
     private Node pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
     // plutôt stocker l'arc ????????
 
+    private Arc arc_pere ;
+
     
 
     // constructeur :
@@ -28,7 +30,15 @@ public class Label implements Comparable<Label> {
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
         this.pere = init_pere ;
-        
+        this.arc_pere = null ;
+    }
+
+    public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere, Arc init_arc_pere) {
+        this.sommet_courant = init_sommet_courant ;
+        this.marque = init_marque ;
+        this.cout_realise = init_cout ;
+        this.pere = init_pere ;
+        this.arc_pere = init_arc_pere ;
     }
 
     // méthodes :
@@ -53,6 +63,10 @@ public class Label implements Comparable<Label> {
         return this.pere ; 
     }
 
+    public Arc getArcPere() {
+        return this.arc_pere ;
+    }
+
     public void setSommetCourant(Node x) {
         this.sommet_courant = x ;
     }
@@ -67,5 +81,9 @@ public class Label implements Comparable<Label> {
 
     public void setPere(Node x) {
         this.pere = x ;
+    }
+
+    public void setArcPere(Arc x) {
+        this.arc_pere = x ;
     }
 }
