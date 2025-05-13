@@ -1,6 +1,8 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.lang.* ;
 
 import org.insa.graphs.algorithm.AbstractSolution.Status;
@@ -81,56 +83,79 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         int sommets_marques = 0 ;
         double new_cost ;
         double old_cost ;
+        // sommet destination trouvé ?
+        boolean destination_trouvee = false ;
 
         // création d'un tableau contenant les sommets dans l'ordre de marquage
-        ArrayList<Node> ordre_marquage = new ArrayList<Node>() ;
+        ArrayList<Arc> arcs_precedents = new ArrayList<Arc>() ;
+        ArrayList<Node> ordre_marquage = new ArrayList<Node> () ;
 
         /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
 
         Label min_tas = new Label(null, false, Double.POSITIVE_INFINITY, null) ;
-        while(sommets_marques <= nb_total_sommets && !tas.isEmpty()) {
+        while(sommets_marques <= nb_total_sommets && !tas.isEmpty() && !destination_trouvee) {
             min_tas = tas.deleteMin() ;
             ordre_marquage.add(min_tas.getSommetCourant()) ;
             min_tas.setMarque(true);
             label_sommets.set(min_tas.getSommetCourant().getId(),min_tas) ;
             sommets_marques++ ;
 
-            for (Arc arc : min_tas.getSommetCourant().getSuccessors()) { // boucle sur tous les successeurs de min_tas
+            if(min_tas.getSommetCourant() == data.getDestination()) {
+                destination_trouvee = true ;
+            } else {
 
-                Node destinataire = arc.getDestination() ; // sommet étudié
-                Label label_destinataire = label_sommets.get(destinataire.getId()) ; // label du sommet étudié
+                for (Arc arc : min_tas.getSommetCourant().getSuccessors()) { // boucle sur tous les successeurs de min_tas
 
-                if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
-                // affecter comme coût à ce sommet le minimum entre son coût et le poids de l'arc
-                    old_cost = label_destinataire.getCost() ;
-                    new_cost = min_tas.getCost() + data.getCost(arc) ;
+                    Node destinataire = arc.getDestination() ; // sommet étudié
+                    Label label_destinataire = label_sommets.get(destinataire.getId()) ; // label du sommet étudié
 
-                    if (Double.isInfinite(old_cost) && Double.isFinite(new_cost)) {
-                        notifyNodeReached(arc.getDestination());
-                        tas.insert(label_destinataire) ;
-                    }
+                    if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
+                    // affecter comme coût à ce sommet le minimum entre son coût et le poids de l'arc
+                        old_cost = label_destinataire.getCost() ;
+                        new_cost = min_tas.getCost() + data.getCost(arc) ;
 
-                    if (new_cost < old_cost) { // on regarde quel coût est minimal
-                        // si c'est le nouveau coût, on met à jour la valeur du coût du sommet étudié
-                        try {
-                            tas.remove(label_destinataire) ;
-                        } catch (ElementNotFoundException e) {
-                            System.out.println("ce noeud n'est pas dans le tas") ;
+                        if (Double.isInfinite(old_cost) && Double.isFinite(new_cost)) {
+                            notifyNodeReached(arc.getDestination());
+                            tas.insert(label_destinataire) ;
                         }
-                        
-                        label_destinataire.setCost(new_cost);
-                        tas.insert(label_destinataire) ;
-                        label_destinataire.setPere(min_tas.getSommetCourant());
-                        label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
+
+                        if (new_cost < old_cost) { // on regarde quel coût est minimal
+                            // si c'est le nouveau coût, on met à jour la valeur du coût du sommet étudié
+                            try {
+                                tas.remove(label_destinataire) ;
+                            } catch (ElementNotFoundException e) {
+                                System.out.println("ce noeud n'est pas dans le tas") ;
+                            }
+                            
+                            label_destinataire.setCost(new_cost);
+                            tas.insert(label_destinataire) ;
+                            label_destinataire.setPere(min_tas.getSommetCourant());
+                            label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
+                        }
                     }
                 }
             }
         }
 
+        ArrayList<Node> ordre_final=new ArrayList<Node>();
+        if(destination_trouvee){
+            ordre_final.add(data.getDestination());
+            Node pere =new Node(0,null);
+            Node courant=data.getDestination();
+            while (courant !=data.getOrigin()){
+                pere=label_sommets.get(courant.getId()).getPere() ;
+                ordre_final.add(pere);
+                courant=pere;
+            }
+            Collections.reverse(ordre_final);
+
+        }
+        
         try {
 
             Path solution_chemin = new Path(graph) ;
-            solution_chemin = Path.createShortestPathFromNodes(graph, ordre_marquage) ;
+            solution_chemin = Path.createShortestPathFromNodes(graph, ordre_final) ;
+            
             solution = new ShortestPathSolution(data, Status.OPTIMAL, solution_chemin) ;
 
             notifyDestinationReached(data.getDestination());
