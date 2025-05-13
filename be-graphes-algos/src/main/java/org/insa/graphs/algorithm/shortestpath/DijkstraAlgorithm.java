@@ -3,10 +3,12 @@ package org.insa.graphs.algorithm.shortestpath;
 import java.util.ArrayList;
 import java.lang.* ;
 
+import org.insa.graphs.algorithm.AbstractSolution.Status;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Arc;
+import org.insa.graphs.model.Path;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
@@ -71,17 +73,22 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label origine = new Label(data.getOrigin(), false, 0, null) ;
         label_sommets.set(0,origine) ; // cout(s) = 0
         tas.insert(label_sommets.get(0)) ;
+        //notifyOriginProcessed(data.getOrigin());
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
         int sommets_marques = 0 ;
-        int new_cost ;
-        int old_cost ;
+        double new_cost ;
+        double old_cost ;
+
+        // création d'un tableau contenant les sommets dans l'ordre de marquage
+        ArrayList<Node> ordre_marquage = new ArrayList<Node>() ;
 
         /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
 
         Label min_tas = null ;
         while(sommets_marques <= nb_total_sommets) {
             min_tas = tas.deleteMin() ;
+            ordre_marquage.add(min_tas.getSommetCourant()) ;
             min_tas.setMarque(true);
             label_sommets.set(min_tas.getSommetCourant().getId(),min_tas) ;
             sommets_marques++ ;
@@ -96,6 +103,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     old_cost = label_destinataire.getCost() ;
                     new_cost = min_tas.getCost() + (int)data.getCost(arc) ;
 
+                    /*if (Double.isInfinite(old_cost) && Double.isFinite(new_cost)) {
+                        notifyNodeReached(arc.getDestination());
+                    }*/
+
                     if (new_cost < old_cost) { // on regarde quel coût est minimal
                         // si c'est le nouveau coût, on met à jour la valeur du coût du sommet étudié
                         label_destinataire.setCost(new_cost);
@@ -105,6 +116,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     }
                 }
             }
+        }
+
+        try {
+
+            Path solution_chemin = new Path(graph) ;
+            solution_chemin = Path.createShortestPathFromNodes(graph, ordre_marquage) ;
+            solution = new ShortestPathSolution(data, Status.OPTIMAL, solution_chemin) ;
+
+            //notifyDestinationReached(data.getDestination());
+
+            
+        } catch (IllegalArgumentException e) {
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
 
         // when the algorithm terminates, return the solution that has been found

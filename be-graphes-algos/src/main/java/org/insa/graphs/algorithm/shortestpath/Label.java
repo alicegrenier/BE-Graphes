@@ -14,7 +14,7 @@ public class Label implements Comparable<Label> {
 
     private boolean marque ; // si le sommet est marqué, vrai quand le coût min de ce sommet est définitivement connu par l'algorithme
 
-    private int cout_realise ; // valeur courante du plus court chemin depuis l'origine vers le sommet
+    private double cout_realise ; // valeur courante du plus court chemin depuis l'origine vers le sommet
 
     private Node pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
     // plutôt stocker l'arc ????????
@@ -23,7 +23,7 @@ public class Label implements Comparable<Label> {
 
     // constructeur :
 
-    public Label(Node init_sommet_courant, boolean init_marque, int init_cout, Node init_pere) {
+    public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere) {
         this.sommet_courant = init_sommet_courant ;
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
@@ -34,7 +34,7 @@ public class Label implements Comparable<Label> {
     // méthodes :
 
     public int compareTo(Label label) {
-        return this.cout_realise - label.getCost() ;
+        return (int)(this.cout_realise - label.getCost()) ;
     }
 
     public Node getSommetCourant() {
@@ -45,7 +45,7 @@ public class Label implements Comparable<Label> {
         return this.marque ;
     }
 
-    public int getCost() {
+    public double getCost() {
         return this.cout_realise ;
     }
 
@@ -61,7 +61,7 @@ public class Label implements Comparable<Label> {
         this.marque = x ;
     }
 
-    public void setCost(int x) {
+    public void setCost(double x) {
         this.cout_realise = x ;
     }
 
