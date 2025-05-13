@@ -1,7 +1,7 @@
 package org.insa.graphs.algorithm.shortestpath;
 import java.lang.* ;
 import java.util.* ;
-//import org.insa.graphs.model.Arc;
+import org.insa.graphs.model.Arc;
 //import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 //import org.insa.graphs.model.Path;
@@ -16,14 +16,14 @@ public class Label implements Comparable<Label> {
 
     private double cout_realise ; // valeur courante du plus court chemin depuis l'origine vers le sommet
 
-    private Node pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
+    private Arc pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
     // plutôt stocker l'arc ????????
 
     
 
     // constructeur :
 
-    public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere) {
+    public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Arc init_pere) {
         this.sommet_courant = init_sommet_courant ;
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
@@ -49,7 +49,7 @@ public class Label implements Comparable<Label> {
         return this.cout_realise ;
     }
 
-    public Node getPere() {
+    public Arc getPere() {
         return this.pere ; 
     }
 
@@ -65,7 +65,7 @@ public class Label implements Comparable<Label> {
         this.cout_realise = x ;
     }
 
-    public void setPere(Node x) {
+    public void setPere(Arc x) {
         this.pere = x ;
     }
 }

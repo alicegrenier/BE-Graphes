@@ -5,6 +5,7 @@ import java.lang.* ;
 
 import org.insa.graphs.algorithm.AbstractSolution.Status;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
+import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Arc;
@@ -72,8 +73,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // création d'un label avec un cout à zéro pour l'origine (on écrase la valeur intialisée dnas la boucle for, qui était + inf)
         Label origine = new Label(data.getOrigin(), false, 0, null) ;
-        label_sommets.set(0,origine) ; // cout(s) = 0
-        tas.insert(label_sommets.get(0)) ;
+        label_sommets.set(origine.getSommetCourant().getId(), origine) ; // cout(s) = 0
+        tas.insert(label_sommets.get(origine.getSommetCourant().getId())) ;
         notifyOriginProcessed(data.getOrigin());
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
@@ -86,8 +87,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
 
-        Label min_tas = null ;
-        while(sommets_marques <= nb_total_sommets) {
+        Label min_tas = new Label(null, false, Double.POSITIVE_INFINITY, null) ;
+        while(sommets_marques <= nb_total_sommets && !tas.isEmpty()) {
             min_tas = tas.deleteMin() ;
             ordre_marquage.add(min_tas.getSommetCourant()) ;
             min_tas.setMarque(true);
@@ -100,16 +101,23 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 Label label_destinataire = label_sommets.get(destinataire.getId()) ; // label du sommet étudié
 
                 if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
-                // affecter comme coût à ce sommet le minimum entr son coût et le poids de l'arc
+                // affecter comme coût à ce sommet le minimum entre son coût et le poids de l'arc
                     old_cost = label_destinataire.getCost() ;
                     new_cost = min_tas.getCost() + data.getCost(arc) ;
 
                     if (Double.isInfinite(old_cost) && Double.isFinite(new_cost)) {
                         notifyNodeReached(arc.getDestination());
+                        tas.insert(label_destinataire) ;
                     }
 
                     if (new_cost < old_cost) { // on regarde quel coût est minimal
                         // si c'est le nouveau coût, on met à jour la valeur du coût du sommet étudié
+                        try {
+                            tas.remove(label_destinataire) ;
+                        } catch (ElementNotFoundException e) {
+                            System.out.println("ce noeud n'est pas dans le tas") ;
+                        }
+                        
                         label_destinataire.setCost(new_cost);
                         tas.insert(label_destinataire) ;
                         label_destinataire.setPere(min_tas.getSommetCourant());
