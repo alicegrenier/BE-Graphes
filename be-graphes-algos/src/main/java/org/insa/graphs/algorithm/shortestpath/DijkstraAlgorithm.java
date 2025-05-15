@@ -1,16 +1,15 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+import java.lang.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.lang.* ;
 
-import org.insa.graphs.algorithm.AbstractSolution.Status;
+import org.insa.graphs.algorithm.AbstractSolution.Status ;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
+import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
-import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Path;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -71,7 +70,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
 
         // initialisation du tas
-        BinaryHeap<Label> tas = new BinaryHeap<Label>() ;
+        BinaryHeap<Label> tas = new BinaryHeap<>() ;
 
         // création d'un label avec un cout à zéro pour l'origine (on écrase la valeur intialisée dnas la boucle for, qui était + inf)
         Label origine = new Label(data.getOrigin(), false, 0, null) ;
@@ -87,7 +86,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         boolean destination_trouvee = false ;
 
         // création d'un tableau contenant les sommets dans l'ordre de marquage
-        ArrayList<Arc> arcs_precedents = new ArrayList<Arc>() ;
+        Arc[] arcs_precedents = new Arc[nb_total_sommets] ;
         ArrayList<Node> ordre_marquage = new ArrayList<Node> () ;
 
         /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
@@ -131,13 +130,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                             tas.insert(label_destinataire) ;
                             label_destinataire.setPere(min_tas.getSommetCourant());
                             label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
+                            arcs_precedents[arc.getDestination().getId()]=arc; // on stocke les arcs "optimums" suivant l'id du noeud de destination
                         }
                     }
                 }
             }
         }
 
-        ArrayList<Node> ordre_final=new ArrayList<Node>();
+        /*ArrayList<Node> ordre_final=new ArrayList<Node>();
         if(destination_trouvee){
             ordre_final.add(data.getDestination());
             Node pere =new Node(0,null);
@@ -163,6 +163,27 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             
         } catch (IllegalArgumentException e) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
+        }*/
+
+        //si la case du noeud de destination est vide, c'est qu'il n'a pas été atteint par l'algo
+        if (arcs_precedents[data.getDestination().getId()] == null) {
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
+        }
+        else {
+            // The destination has been found, notify the observers.
+            notifyDestinationReached(data.getDestination());
+            // Create the path from the array of predecessors...
+            ArrayList<Arc> arcs = new ArrayList<>();
+            Arc arc = arcs_precedents[data.getDestination().getId()]; // on part du noeud destination
+            while (arc != null) { // si l'arc n'existe pas, c'est qu'on a fini de remonter le tableau
+                arcs.add(arc);
+                arc = arcs_precedents[arc.getOrigin().getId()];// on va au noeud qui commence l'arc puisqu'on a identifié les arcs par leur destination
+            }
+            // Reverse the path...
+            Collections.reverse(arcs);
+            // Create the final solution.
+            solution = new ShortestPathSolution(data, Status.OPTIMAL,
+                    new Path(graph, arcs));
         }
 
         // when the algorithm terminates, return the solution that has been found
