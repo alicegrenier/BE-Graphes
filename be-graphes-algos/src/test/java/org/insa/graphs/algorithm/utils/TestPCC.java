@@ -31,6 +31,25 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import org.insa.graphs.gui.drawing.Drawing;
+import org.insa.graphs.gui.drawing.components.BasicDrawing;
+import org.insa.graphs.model.Graph;
+import org.insa.graphs.model.Path;
+import org.insa.graphs.model.io.BinaryGraphReader;
+import org.insa.graphs.model.io.BinaryPathReader;
+import org.insa.graphs.model.io.GraphReader;
+import org.insa.graphs.model.io.PathReader;
+
+
 @RunWith(Parameterized.class)
 public abstract class TestPCC {
 
