@@ -76,5 +76,56 @@ public abstract class TestPCC {
         return basicDrawing;
     }
 
+    // définition de plusieurs scénarios
+    /* chaque scénario est défini par
+     * - une carte (tester des cartes routières et non routières)
+     * - la nature du coût (tester en distance et en temps)
+     * - une origine et une destination (tester plusieurs valeurs)
+     * ==> sur chaque scénario, vérifier que le chemin construit par l'algo est valide
+     * ==> vérifier que le coût du chemin calculé par Dijkstra est le même que celui calculé par la classe path
+     * ==> vérifier qu'on obtient les mêmes résultats qu'avec Bellman-Ford
+     * ==> sur les chemins plus grands où Bellman-Ford ne marche pas, vérifier avec des test automatiques que le chemin trouvé est le bon
+     */
+
+     public static void main(String[] args) throws Exception {
+
+        // visit these directory to see the list of available files on commetud.
+        final String mapName =
+                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
+        final String pathName =
+                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/path_fr31insa_rangueil_r2.path";
+
+        final Graph graph;
+        final Path path;
+
+        // create a graph reader
+        try (final GraphReader reader = new BinaryGraphReader(new DataInputStream(
+                new BufferedInputStream(new FileInputStream(mapName))))) {
+
+            // TODO: read the graph
+            graph = reader.read() ;
+        }
+
+        // create the drawing
+        final Drawing drawing = createDrawing();
+
+        // TODO: draw the graph on the drawing
+
+        drawing.drawGraph(graph) ;
+
+        // TODO: create a path reader
+        try (final PathReader pathReader = new BinaryPathReader(
+            new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))))) {
+
+            // TODO: read the path 
+            path = pathReader.readPath(graph);
+        }
+
+        // TODO: draw the path on the drawing
+        drawing.drawPath(path) ;
+        //pathReader.close() ;
+        //reader.close() ;
+    }
+
 
 }
