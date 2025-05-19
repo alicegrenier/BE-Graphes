@@ -87,13 +87,15 @@ public abstract class TestPCC {
      * ==> sur les chemins plus grands où Bellman-Ford ne marche pas, vérifier avec des test automatiques que le chemin trouvé est le bon
      */
 
-     public static void main(String[] args) throws Exception {
+     // calcul de chemin/coût en fonction du scénario
+
+     public int testScenario(String map, String chemin, int nature_cout, int origine, int destination, char algo) {
 
         // visit these directory to see the list of available files on commetud.
         final String mapName =
-                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
+                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/"+map;
         final String pathName =
-                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/path_fr31insa_rangueil_r2.path";
+                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/"+chemin;
 
         final Graph graph;
         final Path path;
@@ -102,30 +104,38 @@ public abstract class TestPCC {
         try (final GraphReader reader = new BinaryGraphReader(new DataInputStream(
                 new BufferedInputStream(new FileInputStream(mapName))))) {
 
-            // TODO: read the graph
+            // read the graph
             graph = reader.read() ;
         }
+
+        // on teste que l'id des nodes origine et destination sont bien dans la graphe
+        if (origine < 0 || destination < 0) {
+            System.out.println("l'origine et/ou la destination sort du graphe") ;
+        }
+
+        // en fonction de la valeur de nature_cout
 
         // create the drawing
         final Drawing drawing = createDrawing();
 
-        // TODO: draw the graph on the drawing
+        // draw the graph on the drawing
 
         drawing.drawGraph(graph) ;
 
-        // TODO: create a path reader
+        // create a path reader
         try (final PathReader pathReader = new BinaryPathReader(
             new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))))) {
 
-            // TODO: read the path 
+            // read the path 
             path = pathReader.readPath(graph);
         }
 
-        // TODO: draw the path on the drawing
+        // draw the path on the drawing
         drawing.drawPath(path) ;
-        //pathReader.close() ;
-        //reader.close() ;
-    }
+
+     }
+
+     // test de différents scénarios avec le résultat attendu (utiliser des assert pour pallier le fait qu'on ne peut pas utiliser Bellman-Ford
 
 
 }
