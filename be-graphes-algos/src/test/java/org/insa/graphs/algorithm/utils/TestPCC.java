@@ -1,4 +1,4 @@
-package org.insa.graphs.algorithm.shortestpath;
+package org.insa.graphs.algorithm.utils;
 
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
