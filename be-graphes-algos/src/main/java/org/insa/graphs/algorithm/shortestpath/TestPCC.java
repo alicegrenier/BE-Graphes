@@ -32,7 +32,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public abstract class TestDijkstra {
+public abstract class TestPCC {
 
  /**
      * Create a new Drawing inside a JFrame an return it.
