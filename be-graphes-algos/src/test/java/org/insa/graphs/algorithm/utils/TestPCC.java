@@ -64,7 +64,7 @@ public abstract class TestPCC {
         SwingUtilities.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                JFrame frame = new JFrame("BE Graphes - Launch");
+                JFrame frame = new JFrame("BE Graphes - Test plus court chemin");
                 frame.setLayout(new BorderLayout());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
