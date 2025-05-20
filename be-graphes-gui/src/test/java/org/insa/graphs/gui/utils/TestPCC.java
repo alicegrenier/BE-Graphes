@@ -224,5 +224,54 @@ public class TestPCC {
 
      // test de différents scénarios avec le résultat attendu (utiliser des assert pour pallier le fait qu'on ne peut pas utiliser Bellman-Ford
 
+     /*-------------------------------------------------------------DIJKSTRA------------------------------------------------------------------------------- */
+
+     /* nature_cout : 
+        - 1 = distance 
+        - 2 = temps 
+        
+        v_ou_p :
+        - 1 : voiture
+        - 2 : piéton */ 
+
+     public void test_chemin_inexistant() {
+        // l'origine et/ou la destination n'est pas dans le graphe
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, -1, 0, 'd'), -1, 0);
+     }
+
+     public void test_chemin_longueur_nulle() {
+        // l'origine et la destination sont les mêmes
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1, 1, 'd'), -1, 0);
+     }
+
+     public void test_trajet_court_voiture_distance() {
+        // on va en voiture, sur une petite distance
+        // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1, 4, 'd'), test_scenario(map_choisie, 1, 1, 1, 4, 'b'), 0);
+     }
+
+     public void test_trajet_court_voiture_temps() {
+        // on va en voiture, sur un petit temps
+        // comme c'est un petit temps, on compare les résultats de Dijsktra et Bellman-Ford
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 2, 1, 1, 4, 'd'), test_scenario(map_choisie, 2, 1, 1, 4, 'b'), 0);
+     }
+
+     public void test_trajet_court_pieton() {
+        // on va à pied, sur une petite distance
+        // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 2, 1, 3, 'd'), test_scenario(map_choisie, 1, 2, 1, 3, 'b'), 0);
+     }
+
+     public void test_trajet_long() {
+        // on va à pied sur une grande distance
+        String map_choisie = "carre.dense" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1, 50, 'd'), ??, 0);
+     }
+
 
 }
