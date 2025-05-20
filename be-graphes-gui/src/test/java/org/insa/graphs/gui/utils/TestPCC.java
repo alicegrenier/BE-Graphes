@@ -1,6 +1,9 @@
 package org.insa.graphs.gui.utils;
 
+import org.insa.graphs.algorithm.ArcInspector;
+import org.insa.graphs.algorithm.ArcInspectorFactory;
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
+import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 import org.insa.graphs.model.Arc;
@@ -84,7 +87,15 @@ public abstract class TestPCC {
 
      // calcul de chemin/coût en fonction du scénario
 
-     public int test_scenario(String map, String chemin, int nature_cout, int origine, int destination, char algo) {
+     public int test_scenario(String map, String chemin, int nature_cout, int v_ou_p, int id_origine, int id_destination, char algo) {
+        /* nature_cout : 
+        - 1 = distance 
+        - 2 = temps 
+        
+        v_ou_p :
+        - 1 : voiture
+        - 2 : piéton */ 
+
 
         // visit these directory to see the list of available files on commetud.
         final String mapName =
@@ -104,11 +115,9 @@ public abstract class TestPCC {
         }
 
         // on teste que l'id des nodes origine et destination sont bien dans la graphe
-        if (origine < 0 || destination < 0) {
+        if (id_origine < 0 || id_destination < 0) {
             System.out.println("l'origine et/ou la destination sort du graphe") ;
         }
-
-        // en fonction de la valeur de nature_cout
 
         // create the drawing
         final Drawing drawing = createDrawing();
@@ -116,6 +125,32 @@ public abstract class TestPCC {
         // draw the graph on the drawing
 
         drawing.drawGraph(graph) ;
+
+        // en fonction de la valeur de nature_cout, choisir FastestPath ou ShortestPath
+        // lui donner l'origine et la destination d'où on part
+        // lancer l'algo pour obtenir le chemin
+        // on récupère le résultat
+
+        ArcInspector type_eval ;
+
+        if (nature_cout == 1 && v_ou_p == 1) { // voiture en distance
+            type_eval = ArcInspectorFactory.getAllFilters().get(1) ;
+        } else if (nature_cout == 2 && v_ou_p ==1) { // voiture en temps
+            type_eval = ArcInspectorFactory.getAllFilters().get(2) ;
+        } else if (nature_cout == 1 && v_ou_p == 2) { // piéton en distance
+            System.out.println("il n'existe pas de filtre piéton en distance, par défaut on utilise donc le filtre 'pas de filtre en temps'") ;
+            type_eval = ArcInspectorFactory.getAllFilters().get(0) ;
+        } else if (nature_cout == 2 && v_ou_p ==2) { // piéton en temps
+            type_eval = ArcInspectorFactory.getAllFilters().get(3) ;
+        } else {
+            System.out.println("mauvais argument pour la nature du coût évalué et/ou voiture ou piéton, on met le filtre par défaut") ;
+            type_eval = ArcInspectorFactory.getAllFilters().get(0) ;
+        }
+
+        // permet de choisir automatiquement sur quel graphe on fait le calcul, d'où on part et où on va
+        ShortestPathData data = new ShortestPathData(graph, graph.get(id_origine), graph.get(id_destination), type_eval) ;
+
+        //choisir le bon algo
 
         // create a path reader
         try (final PathReader pathReader = new BinaryPathReader(
@@ -127,6 +162,11 @@ public abstract class TestPCC {
 
         // draw the path on the drawing
         drawing.drawPath(path) ;
+
+        pathReader.close() ;
+        reader.close() ;
+
+        return 0 ;
 
      }
 

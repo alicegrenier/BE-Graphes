@@ -1,6 +1,4 @@
 package org.insa.graphs.algorithm.shortestpath;
-import java.lang.* ;
-import java.util.* ;
 import org.insa.graphs.model.Arc;
 //import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
@@ -19,7 +17,7 @@ public class Label implements Comparable<Label> {
     private Node pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
     // plutôt stocker l'arc ????????
 
-    private Arc arc_pere ;
+    //private Arc arc_pere ;
 
     
 
@@ -30,16 +28,16 @@ public class Label implements Comparable<Label> {
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
         this.pere = init_pere ;
-        this.arc_pere = null ;
+        //this.arc_pere = null ;
     }
 
-    public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere, Arc init_arc_pere) {
+    /*public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere, Arc init_arc_pere) {
         this.sommet_courant = init_sommet_courant ;
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
         this.pere = init_pere ;
         this.arc_pere = init_arc_pere ;
-    }
+    }*/
 
     // méthodes :
 
@@ -63,9 +61,9 @@ public class Label implements Comparable<Label> {
         return this.pere ; 
     }
 
-    public Arc getArcPere() {
+    /*public Arc getArcPere() {
         return this.arc_pere ;
-    }
+    }*/
 
     public void setSommetCourant(Node x) {
         this.sommet_courant = x ;
@@ -83,7 +81,7 @@ public class Label implements Comparable<Label> {
         this.pere = x ;
     }
 
-    public void setArcPere(Arc x) {
+    /*public void setArcPere(Arc x) {
         this.arc_pere = x ;
-    }
+    }*/
 }
