@@ -272,6 +272,18 @@ public class TestPCC {
 
      // tester sur un chemin pas autorisé aux voitures
 
+     @Test
+     public void trajet_voiture_ouvert_que_pietons() {
+        String map_choisie = "insa.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1095, 462, 'd'), test_scenario(map_choisie, 1, 1, 1095, 462, 'b'), 0);
+     }
+
+     /*@Test
+     public void test_qui_rate() {
+        String map_choisie = "insa.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 2, 1095, 462, 'd'), test_scenario(map_choisie, 1, 2, 1095, 760, 'b'), 0);
+     }*/
+
      /*public void test_trajet_long() {
         // on va à pied sur une grande distance
         String map_choisie = "carre.dense" ;
