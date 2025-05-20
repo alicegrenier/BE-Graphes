@@ -1,4 +1,4 @@
-package org.insa.graphs.algorithm.utils;
+package org.insa.graphs.gui.utils;
 
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
@@ -37,13 +37,8 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import org.insa.graphs.gui.drawing.Drawing;
 import org.insa.graphs.gui.drawing.components.BasicDrawing;
-import org.insa.graphs.model.Graph;
-import org.insa.graphs.model.Path;
 import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.BinaryPathReader;
 import org.insa.graphs.model.io.GraphReader;
@@ -89,7 +84,7 @@ public abstract class TestPCC {
 
      // calcul de chemin/coût en fonction du scénario
 
-     public int testScenario(String map, String chemin, int nature_cout, int origine, int destination, char algo) {
+     public int test_scenario(String map, String chemin, int nature_cout, int origine, int destination, char algo) {
 
         // visit these directory to see the list of available files on commetud.
         final String mapName =
