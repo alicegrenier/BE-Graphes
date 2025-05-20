@@ -184,7 +184,15 @@ public class TestPCC {
 
                     solution = algo_a_utiliser.run() ;
 
-                    if (solution.getStatus()==INFEASABLE ){}
+                    if (solution.getStatus()!=Status.INFEASIBLE){ //si les algorithmes ont correctment tourné, ils renvoient leur coût
+                        if (nature_cout==1)//distance 
+                        {
+                            return_value= solution.getPath().getLength();
+                        }else if (nature_cout==2)//temps 
+                        {
+                            return_value= solution.getPath().getMinimumTravelTime();
+                        }
+                    }
                 }
 
                 /*final String pathName =
@@ -209,16 +217,6 @@ public class TestPCC {
             System.out.println("Exception levée pour reader");
         }   
 
-        //return 
-        if (nature_cout==1)//distance 
-        {
-            return solution.getPath().getLength();
-        }else if (nature_cout==2)//temps 
-        {
-            return solution.getPath().getMinimumTravelTime();
-        }else {
-            return -1;
-        }
         return return_value; 
      }
 
@@ -234,18 +232,21 @@ public class TestPCC {
         - 1 : voiture
         - 2 : piéton */ 
 
+    @Test
      public void test_chemin_inexistant() {
         // l'origine et/ou la destination n'est pas dans le graphe
         String map_choisie = "carre.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 1, -1, 0, 'd'), -1, 0);
      }
 
+     @Test
      public void test_chemin_longueur_nulle() {
         // l'origine et la destination sont les mêmes
         String map_choisie = "carre.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 1, 1, 1, 'd'), -1, 0);
      }
 
+     @Test
      public void test_trajet_court_voiture_distance() {
         // on va en voiture, sur une petite distance
         // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
@@ -253,6 +254,7 @@ public class TestPCC {
         assertEquals(test_scenario(map_choisie, 1, 1, 1, 4, 'd'), test_scenario(map_choisie, 1, 1, 1, 4, 'b'), 0);
      }
 
+     @Test
      public void test_trajet_court_voiture_temps() {
         // on va en voiture, sur un petit temps
         // comme c'est un petit temps, on compare les résultats de Dijsktra et Bellman-Ford
@@ -260,6 +262,7 @@ public class TestPCC {
         assertEquals(test_scenario(map_choisie, 2, 1, 1, 4, 'd'), test_scenario(map_choisie, 2, 1, 1, 4, 'b'), 0);
      }
 
+     @Test
      public void test_trajet_court_pieton() {
         // on va à pied, sur une petite distance
         // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
@@ -267,11 +270,13 @@ public class TestPCC {
         assertEquals(test_scenario(map_choisie, 1, 2, 1, 3, 'd'), test_scenario(map_choisie, 1, 2, 1, 3, 'b'), 0);
      }
 
-     public void test_trajet_long() {
+     // tester sur un chemin pas autorisé aux voitures
+
+     /*public void test_trajet_long() {
         // on va à pied sur une grande distance
         String map_choisie = "carre.dense" ;
         assertEquals(test_scenario(map_choisie, 1, 1, 1, 50, 'd'), ??, 0);
-     }
+     }*/
 
 
 }
