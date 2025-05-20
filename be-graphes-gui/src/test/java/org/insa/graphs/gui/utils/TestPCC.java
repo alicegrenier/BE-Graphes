@@ -251,8 +251,8 @@ public class TestPCC {
      }
 
      public void test_trajet_court_voiture_temps() {
-        // on va en voiture, sur une petite distance
-        // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
+        // on va en voiture, sur un petit temps
+        // comme c'est un petit temps, on compare les résultats de Dijsktra et Bellman-Ford
         String map_choisie = "carre.mapgr" ;
         assertEquals(test_scenario(map_choisie, 2, 1, 1, 4, 'd'), test_scenario(map_choisie, 2, 1, 1, 4, 'b'), 0);
      }
