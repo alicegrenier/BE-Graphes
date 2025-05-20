@@ -3,7 +3,12 @@ package org.insa.graphs.gui.utils;
 import org.insa.graphs.algorithm.ArcInspector;
 import org.insa.graphs.algorithm.ArcInspectorFactory;
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
+import org.insa.graphs.algorithm.shortestpath.AStarAlgorithm;
+import org.insa.graphs.algorithm.shortestpath.BellmanFordAlgorithm;
+import org.insa.graphs.algorithm.shortestpath.DijkstraAlgorithm;
+import org.insa.graphs.algorithm.shortestpath.ShortestPathAlgorithm;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
+import org.insa.graphs.algorithm.shortestpath.ShortestPathSolution;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 import org.insa.graphs.model.Arc;
@@ -87,7 +92,7 @@ public abstract class TestPCC {
 
      // calcul de chemin/coût en fonction du scénario
 
-     public int test_scenario(String map, String chemin, int nature_cout, int v_ou_p, int id_origine, int id_destination, char algo) {
+     public int test_scenario(String map, /*String chemin,*/ int nature_cout, int v_ou_p, int id_origine, int id_destination, char algo) {
         /* nature_cout : 
         - 1 = distance 
         - 2 = temps 
@@ -96,15 +101,20 @@ public abstract class TestPCC {
         - 1 : voiture
         - 2 : piéton */ 
 
+        /* algo :
+         * - a : AStar
+         * - b : Bellman-Ford
+         * - d : Dijkstra
+         */
 
         // visit these directory to see the list of available files on commetud.
         final String mapName =
                 "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/"+map;
-        final String pathName =
-                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/"+chemin;
+        /*final String pathName =
+                "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/"+chemin;*/
 
         final Graph graph;
-        final Path path;
+        //final Path path;
 
         // create a graph reader
         try (final GraphReader reader = new BinaryGraphReader(new DataInputStream(
@@ -112,62 +122,99 @@ public abstract class TestPCC {
 
             // read the graph
             graph = reader.read() ;
-        }
+        
 
-        // on teste que l'id des nodes origine et destination sont bien dans la graphe
-        if (id_origine < 0 || id_destination < 0) {
-            System.out.println("l'origine et/ou la destination sort du graphe") ;
-        }
+            // on teste que l'id des nodes origine et destination sont bien dans la graphe
+            if (id_origine < 0 || id_destination < 0) {
+                System.out.println("l'origine et/ou la destination sort du graphe") ;
 
-        // create the drawing
-        final Drawing drawing = createDrawing();
+            // on teste qu'on a bien une origine et une destination différente 
+            } else if (id_origine == id_destination) {
+                System.out.println("l'origine et la destination sont la même") ;
 
-        // draw the graph on the drawing
+            } else {
+                // create the drawing
+                final Drawing drawing = createDrawing();
 
-        drawing.drawGraph(graph) ;
+                // draw the graph on the drawing
 
-        // en fonction de la valeur de nature_cout, choisir FastestPath ou ShortestPath
-        // lui donner l'origine et la destination d'où on part
-        // lancer l'algo pour obtenir le chemin
-        // on récupère le résultat
+                drawing.drawGraph(graph) ;
 
-        ArcInspector type_eval ;
+                // en fonction de la valeur de nature_cout, choisir FastestPath ou ShortestPath
+                // lui donner l'origine et la destination d'où on part
+                // lancer l'algo pour obtenir le chemin
+                // on récupère le résultat
 
-        if (nature_cout == 1 && v_ou_p == 1) { // voiture en distance
-            type_eval = ArcInspectorFactory.getAllFilters().get(1) ;
-        } else if (nature_cout == 2 && v_ou_p ==1) { // voiture en temps
-            type_eval = ArcInspectorFactory.getAllFilters().get(2) ;
-        } else if (nature_cout == 1 && v_ou_p == 2) { // piéton en distance
-            System.out.println("il n'existe pas de filtre piéton en distance, par défaut on utilise donc le filtre 'pas de filtre en temps'") ;
-            type_eval = ArcInspectorFactory.getAllFilters().get(0) ;
-        } else if (nature_cout == 2 && v_ou_p ==2) { // piéton en temps
-            type_eval = ArcInspectorFactory.getAllFilters().get(3) ;
-        } else {
-            System.out.println("mauvais argument pour la nature du coût évalué et/ou voiture ou piéton, on met le filtre par défaut") ;
-            type_eval = ArcInspectorFactory.getAllFilters().get(0) ;
-        }
+                ArcInspector type_eval ;
 
-        // permet de choisir automatiquement sur quel graphe on fait le calcul, d'où on part et où on va
-        ShortestPathData data = new ShortestPathData(graph, graph.get(id_origine), graph.get(id_destination), type_eval) ;
+                if (nature_cout == 1 && v_ou_p == 1) { // voiture en distance
+                    type_eval = ArcInspectorFactory.getAllFilters().get(1) ;
+                } else if (nature_cout == 2 && v_ou_p ==1) { // voiture en temps
+                    type_eval = ArcInspectorFactory.getAllFilters().get(2) ;
+                } else if (nature_cout == 1 && v_ou_p == 2) { // piéton en distance
+                    System.out.println("il n'existe pas de filtre piéton en distance, par défaut on utilise donc le filtre 'pas de filtre en temps'") ;
+                    type_eval = ArcInspectorFactory.getAllFilters().get(0) ;
+                } else if (nature_cout == 2 && v_ou_p ==2) { // piéton en temps
+                    type_eval = ArcInspectorFactory.getAllFilters().get(3) ;
+                } else {
+                    System.out.println("mauvais argument pour la nature du coût évalué et/ou voiture ou piéton, on met le filtre par défaut") ;
+                    type_eval = ArcInspectorFactory.getAllFilters().get(0) ;
+                }
 
-        //choisir le bon algo
+                // permet de choisir automatiquement sur quel graphe on fait le calcul, d'où on part et où on va
+                ShortestPathData data = new ShortestPathData(graph, graph.get(id_origine), graph.get(id_destination), type_eval) ;
 
-        // create a path reader
-        try (final PathReader pathReader = new BinaryPathReader(
-            new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))))) {
+                //choisir le bon algo
 
-            // read the path 
-            path = pathReader.readPath(graph);
-        }
+                ShortestPathAlgorithm algo_a_utiliser ;
+                ShortestPathSolution solution ;
 
-        // draw the path on the drawing
-        drawing.drawPath(path) ;
+                if (algo != 'a' && algo != 'b' && algo != 'd') {
+                    System.out.println("Aucun algo ne correspond à l'argument donné. Rappel : a = AStar, b = Bellman-Ford, d = Dijkstra") ;
+                    return 0 ;
+                } else {
 
-        pathReader.close() ;
-        reader.close() ;
+                    if (algo == 'a') { // AStar
+                        algo_a_utiliser = new AStarAlgorithm(data) ;
+                    } else if (algo == 'b') { //Bellman-Ford
+                        algo_a_utiliser = new BellmanFordAlgorithm(data) ;
+                    } else { // Dijkstra
+                        algo_a_utiliser = new DijkstraAlgorithm(data) ;
+                    }
+
+                    solution = algo_a_utiliser.run() ;
+                }
+
+                /*final String pathName =
+                    "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/"+chemin;*/
+
+                final Path path;
+
+                // create a path reader
+                /*try (final PathReader pathReader = new BinaryPathReader(
+                    new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))))) {*/
+
+                // read the path 
+                path = solution.getPath();//pathReader.readPath(graph);
+                // draw the path on the drawing
+                drawing.drawPath(path) ;
+
+                //pathReader.close() ;
+                reader.close() ;
+
+            }
+
+        } catch(Exception e){
+            System.out.println("Exception levée pour reader");
+        }   
+
+            
 
         return 0 ;
 
+        
+
+        
      }
 
      // test de différents scénarios avec le résultat attendu (utiliser des assert pour pallier le fait qu'on ne peut pas utiliser Bellman-Ford
