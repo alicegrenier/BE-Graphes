@@ -110,6 +110,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
                     if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
                     // affecter comme coût à ce sommet le minimum entre son coût et le poids de l'arc
+
+                        // Small test to check allowed roads...
+                        if (!data.isAllowed(arc)) {
+                         continue;
+                        }
+                        
                         old_cost = label_destinataire.getCost() ;
                         new_cost = min_tas.getCost() + data.getCost(arc) ;
 
