@@ -53,8 +53,7 @@ import org.insa.graphs.model.io.GraphReader;
 import org.insa.graphs.model.io.PathReader;
 
 
-@RunWith(Parameterized.class)
-public abstract class TestPCC {
+public class TestPCC {
 
  /**
      * Create a new Drawing inside a JFrame an return it.
@@ -92,7 +91,7 @@ public abstract class TestPCC {
 
      // calcul de chemin/coût en fonction du scénario
 
-     public int test_scenario(String map, /*String chemin,*/ int nature_cout, int v_ou_p, int id_origine, int id_destination, char algo) {
+     public double test_scenario(String map, /*String chemin,*/ int nature_cout, int v_ou_p, int id_origine, int id_destination, char algo) {
         /* nature_cout : 
         - 1 = distance 
         - 2 = temps 
@@ -113,6 +112,7 @@ public abstract class TestPCC {
         /*final String pathName =
                 "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/"+chemin;*/
 
+        ShortestPathSolution solution=null;
         final Graph graph;
         //final Path path;
 
@@ -167,7 +167,6 @@ public abstract class TestPCC {
                 //choisir le bon algo
 
                 ShortestPathAlgorithm algo_a_utiliser ;
-                ShortestPathSolution solution ;
 
                 if (algo != 'a' && algo != 'b' && algo != 'd') {
                     System.out.println("Aucun algo ne correspond à l'argument donné. Rappel : a = AStar, b = Bellman-Ford, d = Dijkstra") ;
@@ -208,13 +207,16 @@ public abstract class TestPCC {
             System.out.println("Exception levée pour reader");
         }   
 
-            
-
-        return 0 ;
-
-        
-
-        
+        //return 
+        if (nature_cout==1)//distance 
+        {
+            return solution.getPath().getLength();
+        }else if (nature_cout==2)//temps 
+        {
+            return solution.getPath().getMinimumTravelTime();
+        }else {
+            return -1;
+        }
      }
 
      // test de différents scénarios avec le résultat attendu (utiliser des assert pour pallier le fait qu'on ne peut pas utiliser Bellman-Ford
