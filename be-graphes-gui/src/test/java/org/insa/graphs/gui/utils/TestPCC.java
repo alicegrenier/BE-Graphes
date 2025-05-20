@@ -114,6 +114,7 @@ public class TestPCC {
 
         ShortestPathSolution solution=null;
         final Graph graph;
+        double return_value =-1; 
         //final Path path;
 
         // create a graph reader
@@ -182,6 +183,8 @@ public class TestPCC {
                     }
 
                     solution = algo_a_utiliser.run() ;
+
+                    if (solution.getStatus()==INFEASABLE ){}
                 }
 
                 /*final String pathName =
@@ -200,7 +203,6 @@ public class TestPCC {
 
                 //pathReader.close() ;
                 reader.close() ;
-
             }
 
         } catch(Exception e){
@@ -217,6 +219,7 @@ public class TestPCC {
         }else {
             return -1;
         }
+        return return_value; 
      }
 
      // test de différents scénarios avec le résultat attendu (utiliser des assert pour pallier le fait qu'on ne peut pas utiliser Bellman-Ford
