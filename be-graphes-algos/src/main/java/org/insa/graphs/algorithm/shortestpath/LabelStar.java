@@ -19,8 +19,31 @@ public class LabelStar extends Label {
         this.cout_estime = x ;
     }
 
+    public double getTotalCost() {
+        return this.getCost() + this.cout_estime ;
+    }
+
+    /* version de compareTo n'utilisant pas getTotalCost
     public int compareTo(LabelStar label) {
-        return (int)(this.getCost() + this.cout_estime - (label.getCost() + label.getCoutEstime())) ;
+        int res ;
+        res = (int)(this.getCost() + this.cout_estime - (label.getCost() + label.getCoutEstime())) ;
+        if (res == 0) {
+            return (int)(this.cout_estime - label.getCoutEstime()) ;
+        } else {
+            return res ;
+        }
+    }*/
+
+
+    // version de compareTo avec getTotalCost
+    public int compareTo(LabelStar label) {
+        int res ;
+        res = (int)(this.getTotalCost() - label.getTotalCost()) ;
+        if (res == 0) {
+            return (int)(this.cout_estime - label.getCoutEstime()) ;
+        } else {
+            return res ;
+        }
     }
 
 }

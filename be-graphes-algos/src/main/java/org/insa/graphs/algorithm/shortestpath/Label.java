@@ -41,10 +41,6 @@ public class Label implements Comparable<Label> {
 
     // méthodes :
 
-    public int compareTo(Label label) {
-        return (int)(this.cout_realise - label.getCost()) ;
-    }
-
     public Node getSommetCourant() {
         return this.sommet_courant ;
     }
@@ -60,10 +56,6 @@ public class Label implements Comparable<Label> {
     public Node getPere() {
         return this.pere ; 
     }
-
-    /*public Arc getArcPere() {
-        return this.arc_pere ;
-    }*/
 
     public void setSommetCourant(Node x) {
         this.sommet_courant = x ;
@@ -81,7 +73,17 @@ public class Label implements Comparable<Label> {
         this.pere = x ;
     }
 
-    /*public void setArcPere(Arc x) {
-        this.arc_pere = x ;
+    public double getTotalCost() {
+        return this.cout_realise ;
+    }
+
+    /* Première version de compareTo, sans getTotalCost
+    public int compareTo(Label label) {
+        return (int)(this.cout_realise - label.getCost()) ;
     }*/
+
+    // version de compareTo() utilisant getTotalCost
+    public int compareTo(Label label) {
+        return (int)(this.cout_realise - label.getTotalCost()) ;
+    }
 }
