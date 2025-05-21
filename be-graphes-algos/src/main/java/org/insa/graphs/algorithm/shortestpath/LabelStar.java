@@ -11,7 +11,7 @@ public class LabelStar extends Label {
         this.cout_estime = heuristique();
     }
 
-    public double heuristique(Node origine, Node destination, int vitesse_max, Mode mode) {
+    public double heuristique(Node origine, Node destination, int vitesse_max, int mode) {
 
     }
 

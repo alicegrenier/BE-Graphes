@@ -233,21 +233,21 @@ public class TestPCC {
         - 2 : piéton */ 
 
     @Test
-     public void test_chemin_inexistant() {
+     public void test_chemin_inexistant_dijkstra() {
         // l'origine et/ou la destination n'est pas dans le graphe
         String map_choisie = "carre.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 1, -1, 0, 'd'), -1, 0);
      }
 
      @Test
-     public void test_chemin_longueur_nulle() {
+     public void test_chemin_longueur_nulle_dijkstra() {
         // l'origine et la destination sont les mêmes
         String map_choisie = "carre.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 1, 1, 1, 'd'), -1, 0);
      }
 
      @Test
-     public void test_trajet_court_voiture_distance() {
+     public void test_trajet_court_voiture_distance_dijkstra() {
         // on va en voiture, sur une petite distance
         // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
         String map_choisie = "carre.mapgr" ;
@@ -255,7 +255,7 @@ public class TestPCC {
      }
 
      @Test
-     public void test_trajet_court_voiture_temps() {
+     public void test_trajet_court_voiture_temps_dijkstra() {
         // on va en voiture, sur un petit temps
         // comme c'est un petit temps, on compare les résultats de Dijsktra et Bellman-Ford
         String map_choisie = "carre.mapgr" ;
@@ -263,7 +263,7 @@ public class TestPCC {
      }
 
      @Test
-     public void test_trajet_court_pieton() {
+     public void test_trajet_court_pieton_dijkstra() {
         // on va à pied, sur une petite distance
         // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
         String map_choisie = "carre.mapgr" ;
@@ -273,32 +273,100 @@ public class TestPCC {
      // tester sur un chemin pas autorisé aux voitures
 
      @Test
-     public void trajet_voiture_ouvert_que_pietons() {
+     public void trajet_voiture_ouvert_que_pietons_dijkstra() {
         String map_choisie = "insa.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 1, 1095, 462, 'd'), test_scenario(map_choisie, 1, 1, 1095, 462, 'b'), 0);
      }
 
      /*@Test
      rate car l'origine et la destination ne sont pas les mêmes dans le test et le résultat attendu
-     public void test_origine_et_dest_différentes() {
+     public void test_origine_et_dest_différentes_dijkstra() {
         String map_choisie = "insa.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 2, 1095, 462, 'd'), test_scenario(map_choisie, 1, 2, 1095, 760, 'b'), 0);
      } ==> fonctionne mais du coup commenté pour éviter de faire planter le programme*/
 
      @Test
-     public void test_on_traverse_la_mer() {
+     public void test_on_traverse_la_mer_dijkstra() {
         String map_choisie = "bretagne.mapgr" ;
         // l'origine est sur le continent et la destination est sur une île
         assertEquals(test_scenario(map_choisie, 1, 2, 74233, 317548, 'd'), -1, 0);
      }
 
      @Test
-     public void test_trajet_long() {
+     public void test_trajet_long_dijkstra() {
         // on va en voiture sur une grande distance
         String map_choisie = "bretagne.mapgr" ;
         // pour le résultat attendu, Google maps nous donne 234km, on laisse donc une marche de 3km en raison de l'incertitude sur l'endroit exact où on a placé le départ et l'arrivée
         assertEquals(test_scenario(map_choisie, 1, 2, 428892, 437839, 'd'), 234000, 3000);
      }
+
+     /*----------------------------------------------------------------------------------------A*------------------------------------------------------------------------------------------------------------ */
+     @Test
+     public void test_chemin_inexistant_astar() {
+        // l'origine et/ou la destination n'est pas dans le graphe
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, -1, 0, 'a'), -1, 0);
+     }
+
+    @Test
+     public void test_chemin_longueur_nulle_astar() {
+        // l'origine et la destination sont les mêmes
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1, 1, 'a'), -1, 0);
+     }
+
+     @Test
+     public void test_trajet_court_voiture_distance_astar() {
+        // on va en voiture, sur une petite distance
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1, 4, 'a'), test_scenario(map_choisie, 1, 1, 1, 4, 'd'), 0);
+     }
+
+     @Test
+     public void test_trajet_court_voiture_temps_astar() {
+        // on va en voiture, sur un petit temps
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 2, 1, 1, 4, 'a'), test_scenario(map_choisie, 2, 1, 1, 4, 'd'), 0);
+     }
+
+     @Test
+     public void test_trajet_court_pieton_astar() {
+        // on va à pied, sur une petite distance
+        // comme c'est une petite distance, on compare les résultats de Dijsktra et Bellman-Ford
+        String map_choisie = "carre.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 2, 1, 3, 'a'), test_scenario(map_choisie, 1, 2, 1, 3, 'd'), 0);
+     }
+
+     // tester sur un chemin pas autorisé aux voitures
+
+     @Test
+     public void trajet_voiture_ouvert_que_pietons_astar() {
+        String map_choisie = "insa.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 1, 1095, 462, 'a'), test_scenario(map_choisie, 1, 1, 1095, 462, 'd'), 0);
+     }
+
+     /*@Test
+     rate car l'origine et la destination ne sont pas les mêmes dans le test et le résultat attendu
+     public void test_origine_et_dest_différentes_astar() {
+        String map_choisie = "insa.mapgr" ;
+        assertEquals(test_scenario(map_choisie, 1, 2, 1095, 462, 'a'), test_scenario(map_choisie, 1, 2, 1095, 760, 'd'), 0);
+     } ==> fonctionne mais du coup commenté pour éviter de faire planter le programme*/
+
+     @Test
+     public void test_on_traverse_la_mer_astar() {
+        String map_choisie = "bretagne.mapgr" ;
+        // l'origine est sur le continent et la destination est sur une île
+        assertEquals(test_scenario(map_choisie, 1, 2, 74233, 317548, 'a'), -1, 0);
+     }
+
+     @Test
+     public void test_trajet_long_astar() {
+        // on va en voiture sur une grande distance
+        String map_choisie = "bretagne.mapgr" ;
+        // pour le résultat attendu, Google maps nous donne 234km, on laisse donc une marche de 3km en raison de l'incertitude sur l'endroit exact où on a placé le départ et l'arrivée
+        assertEquals(test_scenario(map_choisie, 1, 2, 428892, 437839, 'a'), 234000, 3000);
+     }
+
 
 
 }
