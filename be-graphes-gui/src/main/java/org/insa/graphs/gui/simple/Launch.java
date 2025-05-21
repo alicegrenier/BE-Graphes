@@ -59,7 +59,7 @@ public class Launch {
                 new BufferedInputStream(new FileInputStream(mapName))))) {
 
             // TODO: read the graph
-            graph = reader.read() ;
+            graph = reader.read();
         }
 
         // create the drawing
@@ -67,20 +67,20 @@ public class Launch {
 
         // TODO: draw the graph on the drawing
 
-        drawing.drawGraph(graph) ;
+        drawing.drawGraph(graph);
 
         // TODO: create a path reader
-        try (final PathReader pathReader = new BinaryPathReader(
-            new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))))) {
+        try (final PathReader pathReader = new BinaryPathReader(new DataInputStream(
+                new BufferedInputStream(new FileInputStream(pathName))))) {
 
-            // TODO: read the path 
+            // TODO: read the path
             path = pathReader.readPath(graph);
         }
 
         // TODO: draw the path on the drawing
-        drawing.drawPath(path) ;
-        //pathReader.close() ;
-        //reader.close() ;
+        drawing.drawPath(path);
+        // pathReader.close() ;
+        // reader.close() ;
     }
 
 }

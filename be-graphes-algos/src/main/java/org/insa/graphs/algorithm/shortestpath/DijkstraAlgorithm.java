@@ -14,8 +14,35 @@ import org.insa.graphs.model.Path;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
+    //le but est de rendre les variables utilisées dans l'algorithme de Dijkstra visibles dans toute la classe. 
+    // Ensuite, une méthode les variables Label et il sera possible de l'écraser pour utiliser des LabelStar dans A*
+
+    //Attributs 
+    final ShortestPathData data; 
+    Graph graph;
+    final int nb_total_sommets;
+    int id_origine;
+
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        this.data = getInputData();
+        this.graph=data.getGraph();
+        this.nb_total_sommets=graph.size();
+        this.id_origine=data.getOrigin().getId();
+    }
+
+    protected Label[] init_labels(){
+        Label[] label_sommets= new Label[nb_total_sommets]; 
+        Label label_courant;
+        // initialisation du tableau des labels
+        for (int i = 0; i < nb_total_sommets; i++) {
+            label_courant = new Label(graph.get(i), false, Double.POSITIVE_INFINITY, null) ;
+            label_sommets[i]=label_courant ; // ajout du label complet du sommet au tableau des labels
+        }
+        // on met l'origine au bon coût 
+        Label origine = new Label(data.getOrigin(), false, 0, null) ;
+        label_sommets[id_origine]=origine ; // cout(s) = 0
+        return label_sommets;
     }
 
     @Override
@@ -23,7 +50,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // retrieve data from the input problem (getInputData() is inherited from the
         // parent class ShortestPathAlgorithm)
-        final ShortestPathData data = getInputData();
+        //data = getInputData();
         /* structure avec : 
          * private Node origin
          * private Node destination
@@ -46,17 +73,18 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         */ 
         
         // récupérer le graphe
-        Graph graph = data.getGraph();
-        int nb_total_sommets = graph.size() ;
+        //Graph graph = data.getGraph();
+        //int nb_total_sommets = graph.size() ;
 
         /* 
         * tableau de n cases permettant de stocker les labels sans modifier les classes des sommets 
         * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
         */
-        ArrayList<Label> label_sommets ;
-        label_sommets = new ArrayList<Label> () ; // création du tableau des labels
+       //ArrayList<Label> label_sommets ;
+       Label[] labels_sommets=init_labels();
+        //label_sommets = new ArrayList<Label> () ; // création du tableau des labels
         // Label label_courant = new Label(null, false, 0, null) ;
-        Label label_courant = null ;
+        /*Label label_courant;
 
         // initialisation du tableau des labels
         for (int i = 0; i < nb_total_sommets; i++) {
@@ -66,16 +94,18 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             label_courant.setMarque(false); // marque(i) = false
             label_courant.setPere(null); // pere(i) = inexistant*/
 
-            label_sommets.add(i,label_courant) ; // ajout du label complet du sommet au tableau des labels
-        }
+            //label_sommets.add(i,label_courant) ; // ajout du label complet du sommet au tableau des labels
+        //}
+        
 
         // initialisation du tas
         BinaryHeap<Label> tas = new BinaryHeap<>() ;
 
         // création d'un label avec un cout à zéro pour l'origine (on écrase la valeur intialisée dnas la boucle for, qui était + inf)
-        Label origine = new Label(data.getOrigin(), false, 0, null) ;
+        /*Label origine = new Label(data.getOrigin(), false, 0, null) ;
         label_sommets.set(origine.getSommetCourant().getId(), origine) ; // cout(s) = 0
-        tas.insert(label_sommets.get(origine.getSommetCourant().getId())) ;
+        tas.insert(label_sommets.get(origine.getSommetCourant().getId())) ;*/
+        tas.insert(labels_sommets[id_origine]);
         notifyOriginProcessed(data.getOrigin());
 
         // sommets marqués, compteur des sommets marqués à incrémenter à chaque fois qu'on marque un nouveau sommet
@@ -91,12 +121,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         /*------------------------------------------------------------itérations ----------------------------------------------------------------*/
 
-        Label min_tas = new Label(null, false, Double.POSITIVE_INFINITY, null) ;
+        Label min_tas;
         while(sommets_marques <= nb_total_sommets && !tas.isEmpty() && !destination_trouvee) {
             min_tas = tas.deleteMin() ;
             ordre_marquage.add(min_tas.getSommetCourant()) ;
             min_tas.setMarque(true);
-            label_sommets.set(min_tas.getSommetCourant().getId(),min_tas) ;
+            labels_sommets[min_tas.getSommetCourant().getId()]=min_tas;
+            //label_sommets.set(min_tas.getSommetCourant().getId(),min_tas) ;
             sommets_marques++ ;
 
             if(min_tas.getSommetCourant() == data.getDestination()) {
@@ -106,7 +137,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 for (Arc arc : min_tas.getSommetCourant().getSuccessors()) { // boucle sur tous les successeurs de min_tas
 
                     Node destinataire = arc.getDestination() ; // sommet étudié
-                    Label label_destinataire = label_sommets.get(destinataire.getId()) ; // label du sommet étudié
+                    Label label_destinataire = labels_sommets[destinataire.getId()];
+                    //label_sommets.get(destinataire.getId()) ; // label du sommet étudié
 
                     if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
                     // affecter comme coût à ce sommet le minimum entre son coût et le poids de l'arc
@@ -116,8 +148,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                          continue;
                         }
                         
-                        old_cost = label_destinataire.getCost() ;
-                        new_cost = min_tas.getCost() + data.getCost(arc) ;
+                        old_cost = label_destinataire.getTotalCost() ;
+                        new_cost = min_tas.getTotalCost() + data.getCost(arc) ;
 
                         if (Double.isInfinite(old_cost) && Double.isFinite(new_cost)) {
                             notifyNodeReached(arc.getDestination());
@@ -135,7 +167,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                             label_destinataire.setCost(new_cost);
                             tas.insert(label_destinataire) ;
                             label_destinataire.setPere(min_tas.getSommetCourant());
-                            label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
+                            //label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
+                            labels_sommets[label_destinataire.getSommetCourant().getId()]=label_destinataire;
                             arcs_precedents[arc.getDestination().getId()]=arc; // on stocke les arcs "optimums" suivant l'id du noeud de destination
                         }
                     }

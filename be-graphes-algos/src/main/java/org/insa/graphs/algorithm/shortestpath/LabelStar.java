@@ -8,12 +8,12 @@ public class LabelStar extends Label {
 
     public LabelStar(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere, int vitesse) {
         super(init_sommet_courant, init_marque, init_cout, init_pere) ;
-        this.cout_estime = heuristique();
+        //this.cout_estime = heuristique();
     }
 
-    public double heuristique(Node origine, Node destination, int vitesse_max, int mode) {
+    /*public double heuristique(Node origine, Node destination, int vitesse_max, int mode) {
 
-    }
+    }*/
 
     public double getCoutEstime() {
         return this.cout_estime ;
