@@ -279,16 +279,26 @@ public class TestPCC {
      }
 
      /*@Test
-     public void test_qui_rate() {
+     rate car l'origine et la destination ne sont pas les mêmes dans le test et le résultat attendu
+     public void test_origine_et_dest_différentes() {
         String map_choisie = "insa.mapgr" ;
         assertEquals(test_scenario(map_choisie, 1, 2, 1095, 462, 'd'), test_scenario(map_choisie, 1, 2, 1095, 760, 'b'), 0);
-     }*/
+     } ==> fonctionne mais du coup commenté pour éviter de faire planter le programme*/
 
-     /*public void test_trajet_long() {
-        // on va à pied sur une grande distance
-        String map_choisie = "carre.dense" ;
-        assertEquals(test_scenario(map_choisie, 1, 1, 1, 50, 'd'), ??, 0);
-     }*/
+     @Test
+     public void test_on_traverse_la_mer() {
+        String map_choisie = "bretagne.mapgr" ;
+        // l'origine est sur le continent et la destination est sur une île
+        assertEquals(test_scenario(map_choisie, 1, 2, 74233, 317548, 'd'), -1, 0);
+     }
+
+     @Test
+     public void test_trajet_long() {
+        // on va en voiture sur une grande distance
+        String map_choisie = "bretagne.mapgr" ;
+        // pour le résultat attendu, Google maps nous donne 234km, on laisse donc une marche de 3km en raison de l'incertitude sur l'endroit exact où on a placé le départ et l'arrivée
+        assertEquals(test_scenario(map_choisie, 1, 2, 428892, 437839, 'd'), 234000, 3000);
+     }
 
 
 }
