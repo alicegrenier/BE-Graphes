@@ -18,7 +18,12 @@ public class LabelStar extends Label {
         //calcul de la distance et on a besoin de la distance pour calculer le temps 
         cout=origine.getPoint().distanceTo(destination.getPoint()); 
         if (mode.equals(Mode.TIME)){ //tps=dist/vitesse, vitesse actuellement km/h, distance en m 
-            cout=origine.getPoint().distanceTo(destination.getPoint())*(vitesse_max*3600/1000);
+            if (vitesse_max != -1) {
+                cout=origine.getPoint().distanceTo(destination.getPoint())*(vitesse_max*3600/1000);
+            } else {
+                // si la vitesse est -1, c'est que la route n'a pas de limitation, mais on est en France donc on met la vitesse_max par défaut à 130
+                cout=origine.getPoint().distanceTo(destination.getPoint())*(130*3600/1000);
+            }
         }
         return cout;
     }

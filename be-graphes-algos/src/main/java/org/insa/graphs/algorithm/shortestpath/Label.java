@@ -1,8 +1,5 @@
 package org.insa.graphs.algorithm.shortestpath;
-import org.insa.graphs.model.Arc;
-//import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
-//import org.insa.graphs.model.Path;
 
 public class Label implements Comparable<Label> {
 
@@ -15,9 +12,6 @@ public class Label implements Comparable<Label> {
     private double cout_realise ; // valeur courante du plus court chemin depuis l'origine vers le sommet
 
     private Node pere ; // sommet précédent sur le chemin correspondant au plus court chemin courant
-    // plutôt stocker l'arc ????????
-
-    //private Arc arc_pere ;
 
     
 
@@ -28,16 +22,7 @@ public class Label implements Comparable<Label> {
         this.marque = init_marque ;
         this.cout_realise = init_cout ;
         this.pere = init_pere ;
-        //this.arc_pere = null ;
     }
-
-    /*public Label(Node init_sommet_courant, boolean init_marque, double init_cout, Node init_pere, Arc init_arc_pere) {
-        this.sommet_courant = init_sommet_courant ;
-        this.marque = init_marque ;
-        this.cout_realise = init_cout ;
-        this.pere = init_pere ;
-        this.arc_pere = init_arc_pere ;
-    }*/
 
     // méthodes :
 

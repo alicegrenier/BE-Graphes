@@ -6,7 +6,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         super(data);
     }
 
-    @Override
+    /* on remplit le tableau de labels avec des LabelStar */
+
+    @Override // on écrase la fonction de la classe mère
     protected Label[] init_labels(){
         Label[] label_sommets= new LabelStar[nb_total_sommets]; 
         LabelStar label_courant;

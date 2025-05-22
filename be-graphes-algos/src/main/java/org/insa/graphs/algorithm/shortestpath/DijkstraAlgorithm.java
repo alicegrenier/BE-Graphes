@@ -1,6 +1,5 @@
 package org.insa.graphs.algorithm.shortestpath;
 
-import java.lang.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -48,14 +47,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     @Override
     protected ShortestPathSolution doRun() {
 
-        // retrieve data from the input problem (getInputData() is inherited from the
-        // parent class ShortestPathAlgorithm)
-        //data = getInputData();
-        /* structure avec : 
-         * private Node origin
-         * private Node destination
-        */
-
         // variable that will contain the solution of the shortest path problem
         ShortestPathSolution solution = null;
 
@@ -71,40 +62,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         * - cout(origine) <= 0
         * - Insérer(s,tas)
         */ 
-        
-        // récupérer le graphe
-        //Graph graph = data.getGraph();
-        //int nb_total_sommets = graph.size() ;
 
         /* 
         * tableau de n cases permettant de stocker les labels sans modifier les classes des sommets 
         * les sommets sont numérotés de 1 à n donc le label de la case 1 correspond au sommet 1 
         */
-       //ArrayList<Label> label_sommets ;
        Label[] labels_sommets=init_labels();
-        //label_sommets = new ArrayList<Label> () ; // création du tableau des labels
-        // Label label_courant = new Label(null, false, 0, null) ;
-        /*Label label_courant;
-
-        // initialisation du tableau des labels
-        for (int i = 0; i < nb_total_sommets; i++) {
-            label_courant = new Label(graph.get(i), false, Double.POSITIVE_INFINITY, null) ;
-            /*label_courant.setSommetCourant(graph.get(i));
-            label_courant.setCost(Double.POSITIVE_INFINITY) ; // cout(i) = + inf
-            label_courant.setMarque(false); // marque(i) = false
-            label_courant.setPere(null); // pere(i) = inexistant*/
-
-            //label_sommets.add(i,label_courant) ; // ajout du label complet du sommet au tableau des labels
-        //}
-        
 
         // initialisation du tas
         BinaryHeap<Label> tas = new BinaryHeap<>() ;
 
         // création d'un label avec un cout à zéro pour l'origine (on écrase la valeur intialisée dnas la boucle for, qui était + inf)
-        /*Label origine = new Label(data.getOrigin(), false, 0, null) ;
-        label_sommets.set(origine.getSommetCourant().getId(), origine) ; // cout(s) = 0
-        tas.insert(label_sommets.get(origine.getSommetCourant().getId())) ;*/
         tas.insert(labels_sommets[id_origine]);
         notifyOriginProcessed(data.getOrigin());
 
@@ -126,8 +94,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             min_tas = tas.deleteMin() ;
             ordre_marquage.add(min_tas.getSommetCourant()) ;
             min_tas.setMarque(true);
-            labels_sommets[min_tas.getSommetCourant().getId()]=min_tas;
-            //label_sommets.set(min_tas.getSommetCourant().getId(),min_tas) ;
+            labels_sommets[min_tas.getSommetCourant().getId()]=min_tas ;
             sommets_marques++ ;
 
             if(min_tas.getSommetCourant() == data.getDestination()) {
@@ -137,8 +104,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 for (Arc arc : min_tas.getSommetCourant().getSuccessors()) { // boucle sur tous les successeurs de min_tas
 
                     Node destinataire = arc.getDestination() ; // sommet étudié
-                    Label label_destinataire = labels_sommets[destinataire.getId()];
-                    //label_sommets.get(destinataire.getId()) ; // label du sommet étudié
+                    Label label_destinataire = labels_sommets[destinataire.getId()]; // label du sommet étudié
 
                     if (label_destinataire.getMarque() == false) { // si le sommet n'est pas marqué
                     // affecter comme coût à ce sommet le minimum entre son coût et le poids de l'arc
@@ -167,7 +133,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                             label_destinataire.setCost(new_cost);
                             tas.insert(label_destinataire) ;
                             label_destinataire.setPere(min_tas.getSommetCourant());
-                            //label_sommets.set(label_destinataire.getSommetCourant().getId(),label_destinataire) ;
                             labels_sommets[label_destinataire.getSommetCourant().getId()]=label_destinataire;
                             arcs_precedents[arc.getDestination().getId()]=arc; // on stocke les arcs "optimums" suivant l'id du noeud de destination
                         }
@@ -176,39 +141,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             }
         }
 
-        /*ArrayList<Node> ordre_final=new ArrayList<Node>();
-        if(destination_trouvee){
-            ordre_final.add(data.getDestination());
-            Node pere =new Node(0,null);
-            Node courant=data.getDestination();
-            while (courant !=data.getOrigin()){
-                pere=label_sommets.get(courant.getId()).getPere() ;
-                ordre_final.add(pere);
-                courant=pere;
-            }
-            Collections.reverse(ordre_final);
-
-        }
-        
-        try {
-
-            Path solution_chemin = new Path(graph) ;
-            solution_chemin = Path.createShortestPathFromNodes(graph, ordre_final) ;
-            
-            solution = new ShortestPathSolution(data, Status.OPTIMAL, solution_chemin) ;
-
-            notifyDestinationReached(data.getDestination());
-
-            
-        } catch (IllegalArgumentException e) {
-            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
-        }*/
-
         //si la case du noeud de destination est vide, c'est qu'il n'a pas été atteint par l'algo
         if (arcs_precedents[data.getDestination().getId()] == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
-        }
-        else {
+        } else {
             // The destination has been found, notify the observers.
             notifyDestinationReached(data.getDestination());
             // Create the path from the array of predecessors...

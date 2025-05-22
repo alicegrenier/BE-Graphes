@@ -48,17 +48,8 @@ public class Path {
                 else {
                     if (n_prec.hasSuccessors()) {
                         for (Arc a : n_prec.getSuccessors()) {
-                            if (a.getDestination().equals(n)) { // on sélectionne les
-                                                                // arcs
-                                                                // qui ont la
-                                                                // destination
-                                                                // que l'on veut
-                                if (a.getMinimumTravelTime() < time_min) { // on prend
-                                                                           // celui
-                                                                           // qui a la
-                                                                           // durée
-                                                                           // la plus
-                                                                           // petite
+                            if (a.getDestination().equals(n)) { // on sélectionne les arcs qui ont la destination que l'on veut
+                                if (a.getMinimumTravelTime() < time_min) { // on prend celui qui a la durée la plus petite
                                     arc_selectionne = a;
                                     found = true;
                                     time_min = a.getMinimumTravelTime();
@@ -102,37 +93,19 @@ public class Path {
         else {
             Node n_prec = null; // on va stocker le noeud précédent
             int i = 0;
-            float lenght_min = 100000000; // on essaie de prendre une valeur
-                                          // suffisamment
-                                          // grande
+            float lenght_min = 100000000; // on essaie de prendre une valeur suffisamment grande
             boolean found;
-            for (Node n : nodes) { // on va avoir besoin du noeud actuel et de son
-                                   // précédent
-                                   // pour comparer les origines et destinations
+            for (Node n : nodes) { // on va avoir besoin du noeud actuel et de son précédent pour comparer les origines et destinations
                 found = false;
                 Arc arc_selectionne = null;
-                if (i == 0) { // donc pour la première itération, on n'a pas de
-                              // précédent
+                if (i == 0) { // donc pour la première itération, on n'a pas de précédent
                     i--;
                 }
                 else {
-                    if (n_prec.hasSuccessors()) { // on vérifie que notre noeud
-                                                  // précédent a
-                                                  // des successeurs
-                        for (Arc a : n_prec.getSuccessors()) { // on parcourt les arcs
-                                                               // qui
-                                                               // ont pour origine notre
-                                                               // noeud précédent
-                            if (a.getDestination().equals(n)) { // on sélectionne les
-                                                                // arcs
-                                                                // qui ont la
-                                                                // destination
-                                                                // que l'on veut
-                                if (a.getLength() <= lenght_min) { // on prend celui qui
-                                                                   // a
-                                                                   // la
-                                                                   // plus petite
-                                                                   // longueur
+                    if (n_prec.hasSuccessors()) { // on vérifie que notre noeud précédent a des successeurs
+                        for (Arc a : n_prec.getSuccessors()) { // on parcourt les arcs qui ont pour origine notre noeud précédent
+                            if (a.getDestination().equals(n)) { // on sélectionne les arcs qui ont la destination que l'on veut
+                                if (a.getLength() <= lenght_min) { // on prend celui qui a la plus petite longueur
                                     arc_selectionne = a;
                                     found = true;
                                     lenght_min = arc_selectionne.getLength();
@@ -140,9 +113,7 @@ public class Path {
                             }
                         }
                     }
-                    if (found == false) { // si on n'a trouvé aucun arc qui relie les
-                                          // deux
-                                          // noeuds, on lève l'exception
+                    if (found == false) { // si on n'a trouvé aucun arc qui relie les deux noeuds, on lève l'exception
                         throw new IllegalArgumentException();
                     }
                     else {
@@ -293,12 +264,12 @@ public class Path {
         Arc arc_courant = null;
         Arc arc_suivant = null;
 
-        // tester première condition puis boucler sur la liste
-        // récupérer l'arc courant et l'arc suivant
-        // tester que arc_courant.destination = arc_suivant.origine
+        /* tester première condition puis boucler sur la liste
+         récupérer l'arc courant et l'arc suivant
+         tester que arc_courant.destination = arc_suivant.origine */ 
 
-        // si le chemin est vide
-        // si le chemin ne contient qu'un noeud, sans arcs
+        /* si le chemin est vide
+         si le chemin ne contient qu'un noeud, sans arcs */ 
         if (this.isEmpty() || this.size() == 1) {
             return true;
 
@@ -308,8 +279,8 @@ public class Path {
              */
         }
         else {
-            // si, pour deux itérations, la destination du premier arc correspond à
-            // l'origine du second
+            /* si, pour deux itérations, la destination du premier arc correspond à
+             l'origine du second */ 
             for (int i = 0; i < getArcs().size() - 1; i++) {
                 arc_courant = getArcs().get(i);
                 arc_suivant = getArcs().get(i + 1);
