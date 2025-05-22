@@ -361,7 +361,9 @@ public class TestPCC {
         // pour le résultat attendu, Google maps nous donne 234km, on laisse donc une marge de 3km en raison de l'incertitude sur l'endroit exact où on a placé le départ et l'arrivée
         assertEquals(test_scenario(map_choisie, 1, 2, 428892, 437839, 'a'), 234000, 3000);
     }
-    /* ici, le résultat de Dijkstra renvoie le plus court trajet en distance pour toutes les routes autorisées (=234km) 
-    tandis que A* renvoie le trajet le plus court en distance pour les routes autorisées aux voitures uniquement */ 
+    /* si on met l'option voiture, aucun chemin n'existe pour A* */
+    /* ici, A* renvoie un trajet correspondant au résultat du filtre "fastest path, all roads allowed", quand on teste en manuel, qui correpond au même résultat que Dijkstra pour le même filtre en manuel.
+    Si on passe les mêmes paramètres à Dijkstra en automatique, on obtient un résultat différent, qui correspond au résultat du filtre "shortest path, all roads allowed" en manuel
+    Pour ce filtre, A* ne trouve donc pas la même route, puisqu'il trouve la même que pour "fastest".*/ 
 
 }
