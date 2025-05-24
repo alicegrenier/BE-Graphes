@@ -284,7 +284,7 @@ public class TestPCC {
 
     @Test
     public void test_trajet_long_dijkstra() {
-        // on va en voiture sur une grande distance
+        // on va à pied sur une grande distance
         String map_choisie = "bretagne.mapgr";
         // pour le résultat attendu, Google maps nous donne 234km, on laisse donc une
         // marche de 3km en raison de l'incertitude sur l'endroit exact où on a placé le départ et l'arrivée
