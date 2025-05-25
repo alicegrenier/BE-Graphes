@@ -12,8 +12,7 @@ public class LabelStar extends Label {
         this.cout_estime = heuristique(sommet_courant,data.getDestination(),data.getMaximumSpeed(),data.getMode());
     }
 
-    //j'ai mis final pour éviter le warning car potentiellement, cette méthode pourrait être override alors qu'elle est appelée dans un constructeur 
-    public final double heuristique(Node origine, Node destination, int vitesse_max, Mode mode) {
+    private double heuristique(Node origine, Node destination, int vitesse_max, Mode mode) {
         double cout;
         //calcul de la distance et on a besoin de la distance pour calculer le temps 
         cout=origine.getPoint().distanceTo(destination.getPoint()); 
